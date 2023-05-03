@@ -1,0 +1,78 @@
+.body {
+  @apply w-[90%] mx-auto pb-10;
+  .blockk{
+    @apply overflow-x-auto shadow-2xl sm:rounded-lg border gdark:border-gray-700;
+    div {
+      @apply p-4;
+      label {
+        @apply sr-only;
+      }
+      div{
+        @apply relative mt-1;
+        div{
+          @apply absolute inset-y-0 left-0 flex items-center pl-7 pointer-events-none;
+          svg {
+            @apply w-5 h-5 text-gray-500 gdark:text-gray-400;
+          }
+        }
+        input {
+          @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5 gdark:bg-gray-700 gdark:border-gray-600 gdark:placeholder-gray-400 gdark:text-white gdark:focus:ring-blue-500 gdark:focus:border-blue-500;
+        }
+      }
+    }
+
+
+    table {
+      @apply w-full text-sm text-left text-gray-500 gdark:text-gray-400;
+
+      thead {
+        @apply text-xs text-gray-700 uppercase bg-gray-50 gdark:bg-gray-700 gdark:text-gray-400;
+        tr{
+          th{
+            @apply text-left;
+          }
+        }
+      }
+      
+      tbody {
+        tr{
+          @apply bg-white border-b gdark:bg-gray-800 gdark:border-gray-700 hover:bg-gray-50 gdark:hover:bg-gray-600;
+          td {
+            @apply w-4 p-4;
+            div {
+              @apply flex items-center;
+
+              input {
+                @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 gdark:focus:ring-blue-600 gdark:ring-offset-gray-800 focus:ring-2 gdark:bg-gray-700 gdark:border-gray-600;
+              }
+
+              label {
+                @apply sr-only;
+              }
+            }
+          }
+          th {
+            @apply px-6 py-4 font-medium text-gray-900 gdark:text-white whitespace-nowrap;
+          }
+        }
+      }
+    }
+  }
+}
+
+.field {
+  @apply px-6 py-3;
+  span {
+    @apply sr-only;
+  }
+}
+
+.svg{
+  @apply h-8 w-8 mx-auto;
+}
+
+.red{
+  p{
+    @apply text-black gdark:text-red-700 font-bold;
+  }
+}

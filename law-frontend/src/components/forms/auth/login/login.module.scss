@@ -1,0 +1,53 @@
+.body{
+  @apply bg-gray-100 min-h-screen flex flex-col justify-center items-center;
+  .blocker {
+    @apply max-w-2xl mx-auto bg-white p-16 rounded-2xl shadow-2xl w-full;
+    h1{
+      @apply text-center mb-8 font-medium self-center text-xl sm:text-3xl text-gray-800
+    }
+    form{
+      .login {
+        @apply flex flex-col mb-5;
+        label{
+          @apply block mb-2 text-sm font-medium text-gray-900;
+          abbr {
+            @apply text-red-500;
+          }
+        }
+        input {
+          @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+        }
+      }
+
+      .password {
+        @apply flex flex-col mb-5;
+        label{
+          @apply block mb-2 text-sm font-medium text-gray-900;
+          abbr {
+            @apply text-red-500;
+          }
+        }
+        div{
+          @apply relative;
+          div{
+            @apply absolute top-3 right-5 cursor-pointer;
+          }
+          input {
+            @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
+          }
+        }
+      }
+      
+      button {
+        @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center;
+      }
+    }
+  }
+  hr {
+    @apply w-full h-[2px] bg-gray-400 mt-[20px];
+  }
+}
+
+.link{
+  @apply mx-auto block w-fit text-blue-700  mt-10;
+}

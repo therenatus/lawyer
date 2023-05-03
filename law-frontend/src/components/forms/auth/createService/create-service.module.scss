@@ -1,0 +1,31 @@
+.body{
+  @apply w-[80%] mt-[8%] mx-auto space-y-8 p-10 bg-white rounded-xl shadow-2xl z-10 border gdark:border-gray-700 gdark:bg-darker mb-10;
+  div{
+    h1{
+      @apply text-2xl text-gray-800 gdark:text-gray-400;
+    }
+
+    div{
+      @apply grid grid-cols-2 gap-x-5 mt-5;
+      div{
+        @apply mb-3 space-y-2 w-full text-xs flex flex-col items-start;
+        label {
+          @apply font-semibold text-gray-600 gdark:text-gray-400 mb-1;
+        }
+        input {
+          @apply appearance-none block w-full bg-gray-200 text-gray-800 gdark:text-gray-300 border border-gray-300 rounded-lg h-10 px-4 gdark:bg-gray-700 gdark:border-gray-600 gdark:placeholder-gray-400;
+        }
+        p{
+          @apply text-base text-red-500;
+        }
+      }
+      .name{
+        @apply col-span-2
+      }
+    }
+    button {
+      @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center mt-8;
+    }
+  }
+}
+

@@ -1,0 +1,40 @@
+# Ignore node_modules directories in all subfolders
+**/node_modules
+
+# Ignore Nest.js build directory
+/backend/dist
+
+# Ignore React build directory
+/frontend/build
+
+# Ignore log files
+*.log
+
+# Ignore environment variables
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore npm debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore Mac system files
+.DS_Store
+
+# Ignore JetBrains IDE files
+.idea
+
+# Ignore Visual Studio Code files
+.vscode
+
+# Ignore Jest coverage reports
+/coverage
+
+# Ignore Nest.js generated files
+/*.js
+*.map

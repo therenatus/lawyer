@@ -1,0 +1,56 @@
+.body {
+  @apply w-[90%] mx-auto pb-10;
+
+    h1{
+      @apply text-2xl mt-[25px] p-5 text-gray-800 gdark:text-gray-400;
+    }
+    table{
+      @apply w-full;
+      thead{
+        tr{
+          @apply gdark:text-gray-400;
+          th{
+            @apply p-2 hidden lg:table-cell border border-gray-300 bg-gray-200 gdark:border-gray-600 gdark:bg-gray-700;
+          }
+          .name{
+            @apply w-[70%]
+          }
+          .shortName {
+            @apply w-[20%]
+          }
+          .code {
+            @apply w-[10%] appearance-none
+          }
+        }
+      }
+  
+      tbody{
+        .staticc{
+          @apply bg-white mb-10 lg:mb-0;
+          td{
+            @apply w-full  block lg:table-cell relative pl-5 lg:w-auto p-2 text-gray-800 border border-b gdark:bg-gray-800 gdark:text-gray-300 gdark:border-gray-600;
+          }
+        }
+        .toChange{
+          @apply bg-white mb-10 lg:mb-0;
+          td{
+            @apply w-full  block lg:table-cell relative lg:w-auto text-gray-800 border border-b gdark:bg-gray-800 gdark:text-gray-300 gdark:border-gray-600;
+            input{
+              @apply appearance-none block w-full bg-gray-200 text-gray-800 gdark:text-gray-300 h-10 px-4 gdark:bg-gray-700 gdark:border-gray-600 gdark:placeholder-gray-400;
+            }
+          }
+          .button{
+            @apply w-[60px];
+            svg{
+              @apply mx-auto text-green-500;
+            }
+          }
+        }
+      }
+    
+  }
+  
+}
+.button{
+  @apply w-[60px];
+}

@@ -1,0 +1,12 @@
+.title {
+  @apply text-white text-center text-2xl;
+}
+.form{
+  @apply w-[85%] mx-auto mb-3;
+  .select {
+      @apply bg-darker text-white p-3 border border-blue-700 focus:border-blue-700 active:border-blue-700 hover:border-blue-700 rounded-2xl cursor-pointer duration-300 focus:bg-darker;
+      &:focus {
+          @apply border border-blue-700
+      }
+  }
+}

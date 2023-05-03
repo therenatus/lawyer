@@ -1,0 +1,10 @@
+<!-- sample rectangle -->
+<svg viewBox="0 0 77.8 43.3" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <polygon points="17.3,0 17.3,8.1 38.9,16.9 60.6,8.1 60.6,0      "></polygon>
+    <polygon points="22.6,23.5 22.6,23.5 17.3,19.1 17.3,43.3 30.5,43.3 32.7,31.9        "></polygon>
+    <polygon points="31.5,43.3 60.6,43.3 60.6,19.1 58.3,21      "></polygon>
+    <polygon points="41.8,17.4 46.4,19.2 57.3,19.9 77.8,2.7         "></polygon>
+    <polygon points="0,2.7 34.3,31.3 32.5,40.5 57.3,19.9 45.3,21.1      "></polygon>
+  </g>
+</svg>

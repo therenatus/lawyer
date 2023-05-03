@@ -1,0 +1,18 @@
+.blockk{
+  @apply flex items-center h-full sm:p-16 gdark:bg-darker dark:text-gray-100;
+  div{
+    @apply container flex flex-col items-center justify-center px-5 mx-auto my-8 space-y-8 text-center sm:max-w-md;
+    svg{
+      @apply w-40 h-40 gdark:text-gray-600;
+      path{
+        @apply fill-red-600;
+      }
+    }
+    p{
+      @apply text-3xl gdark:text-gray-400;
+    }
+    a {
+      @apply px-8 py-3 font-semibold rounded gdark:bg-blue-400 gdark:text-gray-900;
+    }
+  }
+}

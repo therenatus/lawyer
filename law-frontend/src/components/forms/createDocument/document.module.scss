@@ -1,0 +1,104 @@
+.body {
+  @apply w-[90%] mx-auto space-y-8 p-10 bg-white rounded-xl shadow-2xl z-10 border gdark:border-gray-700 gdark:bg-darker mb-10;
+  div {
+    
+    div{
+      @apply flex flex-col;
+      div{
+        @apply flex flex-col sm:flex-row items-center;
+        h2 {
+          @apply font-semibold text-2xl mr-auto gdark:text-gray-300;
+        }
+      }
+
+      div {
+        @apply mt-5;
+        form {
+          @apply w-full;
+          div{
+            @apply w-full;
+            div {
+              @apply grid gap-x-5 grid-cols-2;
+              div {
+                @apply mb-3 space-y-2 w-full text-xs flex flex-col items-start;
+                label {
+                  @apply font-semibold text-gray-600 gdark:text-gray-400 mb-1;
+                }
+                input {
+                  @apply appearance-none block w-full bg-gray-200 text-gray-800 gdark:text-gray-300 border border-gray-300 rounded-lg h-10 px-4 gdark:bg-gray-700 gdark:border-gray-600 gdark:placeholder-gray-400;
+                }
+                select {
+                  @apply w-full bg-gray-200 text-gray-800 border gdark:text-gray-300 border-gray-300 rounded-lg h-10 p-3 gdark:bg-gray-700 gdark:border-gray-600 gdark:placeholder-gray-400;
+                }
+                div {
+                  @apply mb-3 space-y-2 w-full text-xs;
+                  label {
+                    @apply font-semibold text-gray-600 py-2;
+                  }
+                  div {
+                    @apply relative mb-3 xl:w-96;
+                    input {
+                      @apply appearance-none block w-full bg-gray-200 text-gray-800 border border-gray-300 rounded-lg h-10 px-4 gdark:text-gray-300;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          .buttonBlock {
+            @apply mt-5 text-right md:space-x-3 md:block flex flex-col-reverse;
+            button {
+              @apply mb-2 md:mb-0 bg-blue-600 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-xl hover:shadow-lg hover:bg-blue-700;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.uploadFile {
+  @apply mb-3 w-full flex flex-col;
+  display: flex !important;
+  flex-direction: column !important;
+  .header {
+    @apply block mb-2 text-sm font-medium text-gray-900 gdark:text-gray-300 w-full;
+  }
+
+  .inputField {
+    @apply mx-auto cursor-pointer flex flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white gdark:bg-gray-700 gdark:border-gray-600 p-6 text-center w-full;
+    svg {
+      @apply h-10 w-10 text-blue-500;
+    }
+
+    h2{
+      @apply mt-4 mx-auto text-xl font-medium text-gray-700 tracking-wide;
+    }
+
+    p{
+      @apply mt-2 text-gray-500 tracking-wide;
+    }
+
+    input {
+      @apply hidden;
+    }
+
+  }
+  section {
+    @apply h-full overflow-auto p-8 w-full flex flex-col;
+    ul{
+      @apply flex flex-1 flex-wrap -m-1;
+      li{
+        @apply h-full w-full text-center flex flex-col items-center justify-center;
+        img{
+          @apply mx-auto w-32;
+        }
+        span {
+          @apply text-sm text-gray-500;
+        }
+      }
+    }
+  }
+}

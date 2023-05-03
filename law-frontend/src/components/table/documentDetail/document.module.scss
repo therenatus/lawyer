@@ -1,0 +1,24 @@
+.body{
+  @apply w-[90%] mx-auto;
+  table {
+    @apply border-collapse w-full grid grid-cols-6 grid-flow-col;
+    thead{
+      @apply col-span-2;
+      tr{
+        @apply flex flex-col gdark:text-gray-400;
+        th{
+          @apply p-2 border  hidden lg:table-cell border-gray-300 bg-gray-200 gdark:border-gray-600 gdark:bg-gray-700;
+        }
+      }
+    }
+    tbody {
+      @apply col-span-4;
+      tr{
+        @apply bg-white flex  flex-col lg:flex-col flex-wrap lg:flex-nowrap mb-10 lg:mb-0;
+        td {
+          @apply w-full  block lg:table-cell relative lg:static pl-5 lg:w-auto p-2 text-gray-800 text-left border border-b gdark:bg-gray-800 gdark:text-gray-300 gdark:border-gray-600;
+        }
+      }
+    }
+  }
+}

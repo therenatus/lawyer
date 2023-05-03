@@ -1,0 +1,13 @@
+.main{
+    display: grid;
+    grid-template-columns: 1fr 15fr;
+    .content {
+        overflow-y: hidden;
+        height: 100vh;
+        .body {
+            overflow-y: auto;
+            height: 90vh;
+        }
+    }
+
+}

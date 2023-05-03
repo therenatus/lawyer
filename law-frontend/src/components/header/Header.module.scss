@@ -1,0 +1,14 @@
+@import './../../scss/variables';
+header{
+    @apply p-4 sticky  gdark:bg-darker w-full z-10;
+    .account{
+        @apply flex items-center justify-end text-black gdark:text-gray-300;
+        p{
+            padding: 1rem;
+        }
+        svg{
+            width: 35px;
+            height: 35px;
+        }
+    }
+};

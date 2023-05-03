@@ -1,0 +1,63 @@
+.title {
+  @apply text-white text-center text-2xl;
+}
+@import '../../scss/variables';
+.table{
+  border-radius: 15px;
+  width: 85%;
+  margin: auto;
+  color: #C1C2C5;
+  border-collapse:collapse;
+  .head {
+    @apply rounded-t-2xl bg-[#174193] text-white flex;
+    div{
+      padding: 8px;
+    }
+  }
+  .body{
+    .tr{
+      border: #5c5f66 solid 1px;
+      @apply bg-white text-black gdark:bg-dark gdark:text-gray-300 flex items-center p-2 w-full;
+
+      &:nth-child(2n){
+        @apply bg-gray-100 gdark:bg-dark;
+      }
+      &:hover{
+        @apply bg-gray-200 gdark:bg-dark;
+      }
+      textarea {
+        @apply gdark:bg-darker text-black gdark:text-gray-300 overflow-hidden resize-none h-min w-min border-2 border-blue-800 rounded-lg pl-1 py-2;
+      }
+    }
+  }
+
+  .jobTitle{
+    width: 35%;
+    textarea {
+      width: 95% !important;
+    }
+  }
+
+  .fullName{
+    width: 50%;
+    textarea {
+      width: 95% !important;
+    }
+  }
+  .changed {
+    @apply flex w-[5%] justify-between;
+    svg{
+      @apply text-center cursor-pointer;
+      &:hover {
+        @apply text-white
+      }
+    }
+  }
+}
+
+.addRow{
+  @apply w-full border-2 bg-blue-600 border-blue-500 h-8;
+  svg{
+    @apply text-center w-[20%] mx-auto text-black text-2xl cursor-pointer;
+  }
+}
