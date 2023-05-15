@@ -43,7 +43,7 @@ export class AuthController {
     return buildResponseInterface(service);
   }
 
-  @ApiOperation({ summary: 'PATCH pasword' })
+  @ApiOperation({ summary: 'PATCH password' })
   @UseGuards(AuthGuards)
   @Patch('change-password')
   async changePassword(

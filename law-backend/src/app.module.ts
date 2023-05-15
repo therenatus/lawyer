@@ -19,6 +19,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { RoleGuard } from './auth/guards/role.guard';
 import { AuthModule } from './auth/auth.module';
 import { FileModule } from './file/file.module';
+import { CategoryModule } from '@app/category/category.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { FileModule } from './file/file.module';
     DocumentModule,
     AuthModule,
     FileModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: RoleGuard }],

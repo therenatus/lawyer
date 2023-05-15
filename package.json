@@ -1,0 +1,17 @@
+{
+  "name": "lawyers",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@therenatus:therenatus/lawyer.git",
+  "author": "therenatus <therinatus@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "server": "cd law-backend/ && yarn dev",
+    "client": "cd law-frontend/ && yarn start",
+    "dev": "concurrently \"yarn server\" \"yarn client\""
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "concurrently": "^8.0.1"
+  }
+}

@@ -66,6 +66,7 @@ export class DocumentService {
       .createQueryBuilder('documents')
       .leftJoinAndSelect('documents.initiators', 'initiators')
       .andWhere('documents.initiators = :id', { id });
+    queryBuilder.orderBy('documents.endDate', 'DESC');
     const totalCount = await queryBuilder.getCount();
     const document = await queryBuilder.getMany();
     console.log(document);

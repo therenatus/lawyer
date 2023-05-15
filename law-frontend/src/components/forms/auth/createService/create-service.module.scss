@@ -22,10 +22,17 @@
       .name{
         @apply col-span-2
       }
+      div {
+        @apply flex w-full;
+      }
     }
     button {
       @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center mt-8;
     }
   }
+}
+
+.select {
+  @apply w-full bg-gray-200 text-gray-800 border gdark:text-gray-300 border-gray-300 rounded-lg h-10 p-3 gdark:bg-gray-700 gdark:border-gray-600 gdark:placeholder-gray-400;
 }
 

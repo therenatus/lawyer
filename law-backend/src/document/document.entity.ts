@@ -1,13 +1,13 @@
-import { Status, TStatus } from './types/status.type';
+import { Status } from './types/status.type';
 import { ServiceEntity } from '../service/service.entity';
 import {
   BeforeUpdate,
   Column,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { CategoryEntity } from '@app/category/category.entity';
 
 @Entity({ name: 'documents' })
 export class DocumentEntity {
@@ -53,6 +53,9 @@ export class DocumentEntity {
     eager: true,
   })
   initiators: string;
+
+  @ManyToOne(() => CategoryEntity, (category) => category.id)
+  category: CategoryEntity;
 
   @BeforeUpdate()
   updateTimestamp() {

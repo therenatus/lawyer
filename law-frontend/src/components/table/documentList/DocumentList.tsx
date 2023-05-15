@@ -81,7 +81,7 @@ const DocumentList = (data: IDocumentResponse) => {
 										<td
 											className={
 												deadline(el.endDate) <= '3' &&
-												deadline(el.endDate) > '0'
+												deadline(el.endDate) >= '0'
 													? styles.red
 													: styles.field
 											}

@@ -48,6 +48,10 @@ export class ServiceEntity {
   @Column({ type: 'enum', enum: Role, default: Role.SERVICE })
   role: Role;
 
+  @ApiProperty({ example: 'true', description: 'Доступ' })
+  @Column({ type: 'boolean', default: false })
+  edit: boolean;
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await hash(this.password, 10);

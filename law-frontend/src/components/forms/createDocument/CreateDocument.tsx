@@ -5,17 +5,9 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { useCreateDocumentMutation } from '../../../store/document/documentApi';
-import { useUploadFileMutation } from '../../../store/file/fileApi';
-import {
-	IServiceResponse,
-	ServiceType,
-	useGetAllServicesQuery
-} from '../../../store/service/serviceApi';
+import { useGetAllServicesQuery } from '../../../store/service/serviceApi';
 
-// import { useGetAllQuery } from '../../../store/document/documentApi';
 import styles from './document.module.scss';
-
-type Props = {};
 
 interface ISelect {
 	id: number;
@@ -49,9 +41,9 @@ interface IFile {
 	url: string;
 	path: string;
 }
-const CreateDocument = (props: Props) => {
+
+const CreateDocument = () => {
 	const [file, setFile] = useState<IFile[]>([]);
-	const [document, setDocument] = useState();
 	const {
 		data: serviceData,
 		isLoading: serviceLoading,
@@ -101,7 +93,6 @@ const CreateDocument = (props: Props) => {
 	}, [toUpload]);
 	const onSubmit = (e: any) => {
 		e.file = file[0];
-		console.log(e);
 		create(e);
 	};
 
@@ -175,7 +166,7 @@ const CreateDocument = (props: Props) => {
 											<abbr title="required">*</abbr>
 										</label>
 										<select
-											defaultValue={''}
+											defaultValue={undefined}
 											className={styles.select}
 											{...register('service', {
 												required:
@@ -283,7 +274,9 @@ const CreateDocument = (props: Props) => {
 								</div>
 							</div>
 							<div className={styles.uploadFile}>
-								<label className={styles.header}>TWXT</label>
+								<label className={styles.header}>
+									Загрузка файла
+								</label>
 								<label
 									htmlFor="dropzone-file"
 									className={styles.inputField}

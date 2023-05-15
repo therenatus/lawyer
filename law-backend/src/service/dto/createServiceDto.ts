@@ -39,4 +39,11 @@ export class CreateServiceDto {
   })
   @IsNotEmpty()
   readonly code: string;
+
+  @ApiProperty({
+    type: String,
+    description: 'Обьязателное поле',
+  })
+  @IsNotEmpty()
+  readonly permission: string;
 }

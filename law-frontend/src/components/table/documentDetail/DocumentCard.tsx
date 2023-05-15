@@ -14,7 +14,6 @@ const DocumentDetail = (props: Props) => {
 	return (
 		<div className={styles.body}>
 			<table>
-				<>{console.log(data)}</>
 				<thead>
 					<tr>
 						<th>Предмет договора</th>

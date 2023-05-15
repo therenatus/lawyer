@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -9,33 +9,40 @@ import { TUserCreate } from '../../../../types/user.interface';
 
 import styles from './create-service.module.scss';
 
-type Props = {};
-
-const CreateService: React.FC = ({}: Props) => {
+const CreateService: React.FC = () => {
 	const [create, { isLoading, isSuccess, isError }] = useRegisterMutation();
+	const [role, setRole] = useState();
 	const schema = yup.object().shape({
 		name: yup.string().required('Поле не должно быть пустым'),
 		code: yup.string().required('Поле не должно быть пустым'),
-		shortName: yup.string().required('Поле не должно быть пустым')
+		shortName: yup.string().required('Поле не должно быть пустым'),
+		role: yup.string().required('Поле не должно быть пустым')
 	});
 	const {
 		register,
 		handleSubmit,
-		formState: { errors }
+		formState: { errors },
+		watch
 	} = useForm<TUserCreate>({
 		resolver: yupResolver(schema)
 	});
 
+	const set = watch('role');
+
 	const onSubmit = (e: TUserCreate) => {
 		e.password = '12345678';
-		e.role = Role.SERVICE;
+		if (e.role === Role.SERVICE) {
+			e.permission = 'READ';
+		}
 		create(e);
 	};
 
+	// @ts-ignore
 	return (
 		<div className={styles.body}>
 			<div>
 				<h1>Добавить службу</h1>
+				<>{console.log(set)}</>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div>
 						<div>
@@ -89,6 +96,40 @@ const CreateService: React.FC = ({}: Props) => {
 								</>
 							)}
 						</div>
+						<div>
+							<label>Роль</label>
+							<select
+								className={styles.select}
+								defaultValue={''}
+								{...register('role')}
+							>
+								<option value="" disabled>
+									Выберите вид
+								</option>
+								<option value={Role.ADMIN}>Админ</option>
+								<option value={Role.SERVICE}>Сервис</option>
+							</select>
+						</div>
+						{set === Role.ADMIN ? (
+							<div>
+								<label>Права</label>
+								<select
+									className={styles.select}
+									defaultValue={''}
+									{...register('permission', {
+										required: true
+									})}
+								>
+									<option value="" disabled>
+										Выберите уровень доступа
+									</option>
+									<option value={'READ'}>Чтение</option>
+									<option value={'EDIT'}>
+										Редактирование
+									</option>
+								</select>
+							</div>
+						) : null}
 					</div>
 					<button type="submit">Добавить</button>
 				</form>

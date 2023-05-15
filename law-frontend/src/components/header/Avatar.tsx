@@ -9,15 +9,13 @@ import styles from './avatatr.module.scss';
 
 export const Avatar = () => {
 	const navigate = useNavigate();
-	// const { data } = useSelector((state) => state.auth);
 	const { data } = useMeQuery();
 	const [open, setOpen] = useState(false);
 
 	const onHandleLogout = async () => {
 		if (window.confirm('Вы действительно хотите выйти?')) {
 			Cookies.remove('authToken');
-			// dispatch(logout());
-			navigate('/tenders');
+			navigate('/');
 			window.location.reload();
 		}
 	};

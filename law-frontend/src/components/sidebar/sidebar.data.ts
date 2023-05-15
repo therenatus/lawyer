@@ -7,20 +7,15 @@ import {
 	RiUserAddFill
 } from 'react-icons/ri';
 
+import { Permission } from '../../types/permission.enum';
 import { Role } from '../../types/role.enum';
-
-// export interface IMenuItem {
-// 	name: string;
-// 	link: string;
-// 	icon: IconType;
-// 	roles: string[];
-// }
 
 export interface IMenuItem {
 	name: string;
 	link: string;
 	icon: IconType;
 	role: Role;
+	permission?: Permission;
 }
 
 export const menu: IMenuItem[] = [
@@ -32,7 +27,7 @@ export const menu: IMenuItem[] = [
 	},
 	{
 		name: 'Мои Документы',
-		link: '/my-doc',
+		link: '/',
 		icon: RiFile3Line,
 		role: Role.SERVICE
 	},
@@ -46,7 +41,8 @@ export const menu: IMenuItem[] = [
 		name: 'Добавить документ',
 		link: '/add-file',
 		icon: RiFileAddLine,
-		role: Role.ADMIN
+		role: Role.ADMIN,
+		permission: Permission.EDIT
 	},
 	{
 		name: 'Добавить службу',

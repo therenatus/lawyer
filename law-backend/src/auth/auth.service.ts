@@ -1,4 +1,3 @@
-import { IUser } from './../../../law-frontend/src/types/user.interface';
 import { CreateServiceDto } from '@app/service/dto/createServiceDto';
 import { LoginServiceDto } from '@app/service/dto/loginServiceDto';
 import { ServiceEntity } from '@app/service/service.entity';
@@ -23,10 +22,15 @@ export class AuthService {
     });
 
     if (shortName) {
-      throw new HttpException('this name are taken', HttpStatus.BAD_REQUEST);
+      throw new HttpException('This name are taken', HttpStatus.BAD_REQUEST);
     }
     const newService = new ServiceEntity();
     Object.assign(newService, createServiceDto);
+    if (createServiceDto.permission === 'EDIT') {
+      newService.edit = true;
+    } else {
+      newService.edit = false;
+    }
     return await this.serviceRepository.save(newService);
   }
 

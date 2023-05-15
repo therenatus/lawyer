@@ -5,7 +5,8 @@ export interface IUser {
 	name: string;
 	code: string;
 	shortName: string;
-  role: Role
+	role: Role;
+	edit: boolean;
 }
 
 export type TUserEdit = Omit<IUser, 'id'>;
@@ -17,4 +18,5 @@ export type TUserCreate = {
 	shortName: string;
 	password: string;
 	role: Role;
+	permission?: string;
 };
