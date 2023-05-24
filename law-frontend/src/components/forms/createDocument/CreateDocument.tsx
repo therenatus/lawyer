@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
+import { useGetAllCategoriesQuery } from '../../../store/category/categoryApi';
 import { useCreateDocumentMutation } from '../../../store/document/documentApi';
 import { useGetAllServicesQuery } from '../../../store/service/serviceApi';
 
@@ -49,6 +50,11 @@ const CreateDocument = () => {
 		isLoading: serviceLoading,
 		isSuccess: serviceSuccess
 	} = useGetAllServicesQuery();
+	const {
+		data: categoryData,
+		isLoading: categoryLoading,
+		isError: categoryError
+	} = useGetAllCategoriesQuery();
 	const [create, { isLoading, isError }] = useCreateDocumentMutation();
 
 	const schema = yup.object().shape({
@@ -162,7 +168,7 @@ const CreateDocument = () => {
 									</div>
 									<div>
 										<label>
-											Название службы
+											Название службы инициатора
 											<abbr title="required">*</abbr>
 										</label>
 										<select
@@ -248,27 +254,72 @@ const CreateDocument = () => {
 										</div>
 									)}
 									<div>
-										<div>
-											<label>
-												Конец
-												<abbr title="required">*</abbr>
-											</label>
-											<div>
-												<input
-													type="datetime-local"
-													placeholder="Select a date"
-													{...register('endDate', {
-														required:
-															'Поле обязательно к заполнению'
-													})}
-												/>
+										<label>
+											Категория документа
+											<abbr title="required">*</abbr>
+										</label>
+										<select
+											defaultValue={''}
+											className={styles.select}
+											{...register('category')}
+										>
+											{errors.type?.message && (
+												<>{errors.type.message}</>
+											)}
+											<option value="" disabled>
+												Выберите вид
+											</option>
+											{categoryData?.map((el) => (
+												<option
+													value={el.id}
+													key={el.index}
+												>
+													{el.name}
+												</option>
+											))}
+										</select>
+									</div>
+								</div>
 
-												{errors.endDate?.message && (
-													<>
-														{errors.endDate.message}
-													</>
-												)}
-											</div>
+								<div className={styles.date}>
+									<div className="w-[50%]">
+										<label>
+											Начало
+											<abbr title="required">*</abbr>
+										</label>
+										<div>
+											<input
+												type="datetime-local"
+												placeholder="Select a date"
+												{...register('startDate', {
+													required:
+														'Поле обязательно к заполнению'
+												})}
+											/>
+
+											{errors.endDate?.message && (
+												<>{errors.endDate.message}</>
+											)}
+										</div>
+									</div>
+									<div className="w-[50%]">
+										<label>
+											Конец
+											<abbr title="required">*</abbr>
+										</label>
+										<div>
+											<input
+												type="datetime-local"
+												placeholder="Select a date"
+												{...register('endDate', {
+													required:
+														'Поле обязательно к заполнению'
+												})}
+											/>
+
+											{errors.endDate?.message && (
+												<>{errors.endDate.message}</>
+											)}
 										</div>
 									</div>
 								</div>

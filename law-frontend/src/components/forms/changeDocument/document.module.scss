@@ -1,0 +1,10 @@
+div {
+  @apply mb-3 space-y-2 w-full text-xs flex flex-col items-start;
+  label {
+    @apply font-semibold text-gray-600 gdark:text-gray-400 mb-1;
+  }
+
+  input {
+    @apply appearance-none block w-full bg-gray-200 text-gray-800 gdark:text-gray-300 border border-gray-300 rounded-lg h-10 px-4 gdark:bg-gray-700 gdark:border-gray-600 gdark:placeholder-gray-400;
+  }
+}r

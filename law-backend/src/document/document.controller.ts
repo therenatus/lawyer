@@ -27,16 +27,17 @@ export class DocumentController {
   }
 
   @Get('/line')
-  async deadlineNear(): Promise<IDocumentsResponse> {
-    return await this.documentService.deadlineNear();
+  async deadlineNear(@Query() query: any): Promise<IDocumentsResponse> {
+    return await this.documentService.deadlineNear(query);
   }
 
   @Get('/initiators')
   async getInitiators(
     @Service('id') serviceId: string,
+    @Query() query: any,
   ): Promise<IDocumentsResponse> {
     console.log(serviceId);
-    return this.documentService.getByInitiators(serviceId);
+    return this.documentService.getByInitiators(serviceId, query);
   }
 
   @Get(':id')

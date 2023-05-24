@@ -1,20 +1,13 @@
 import { IsInt, IsNotEmpty } from 'class-validator';
+import { IFile } from '../../types/file.interface';
 
-interface IFile {
-  url: string;
-  name: string;
-}
 export class CreateDocumentDto {
-  // @IsNotEmpty()
-  readonly number: string;
-
-  // @IsNotEmpty()
+  @IsNotEmpty()
   readonly title: string;
 
-  // @IsNotEmpty()
+  @IsNotEmpty()
   readonly endDate: Date;
 
-  // @IsInt()
   readonly type: number;
 
   // @IsInt()

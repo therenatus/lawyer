@@ -42,7 +42,7 @@ export class ServiceEntity {
   documents: DocumentEntity[];
 
   @OneToMany(() => DocumentEntity, (document) => document.initiators)
-  initiator: string;
+  initiator: DocumentEntity;
 
   @ApiProperty({ example: 'Admin', description: 'Роль' })
   @Column({ type: 'enum', enum: Role, default: Role.SERVICE })

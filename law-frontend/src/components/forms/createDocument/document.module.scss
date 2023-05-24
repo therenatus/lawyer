@@ -16,7 +16,7 @@
         form {
           @apply w-full;
           div{
-            @apply w-full;
+            @apply w-full block;
             div {
               @apply grid gap-x-5 grid-cols-2;
               div {
@@ -64,7 +64,7 @@
   display: flex !important;
   flex-direction: column !important;
   .header {
-    @apply block mb-2 text-sm font-medium text-gray-900 gdark:text-gray-300 w-full;
+    @apply block mb-2 text-sm font-medium text-gray-900 gdark:text-gray-500 w-full;
   }
 
   .inputField {
@@ -100,5 +100,16 @@
         }
       }
     }
+  }
+}
+
+.date{
+  display: flex;
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  align-items: center;
+  div{
+    width: 48%;
+    margin: 0 !important;
   }
 }

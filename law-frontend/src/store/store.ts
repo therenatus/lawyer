@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { authApi } from './auth/authApi';
+import { categoryApi } from './category/categoryApi';
 import { documentApi } from './document/documentApi';
 import { fileApi } from './file/fileApi';
 import { serviceApi } from './service/serviceApi';
@@ -12,6 +13,7 @@ export const store = configureStore({
 		[documentApi.reducerPath]: documentApi.reducer,
 		[serviceApi.reducerPath]: serviceApi.reducer,
 		[fileApi.reducerPath]: fileApi.reducer,
+		[categoryApi.reducerPath]: categoryApi.reducer,
 		theme: themeSlice
 	},
 	middleware: (getDefaultMiddleware) =>
@@ -19,7 +21,8 @@ export const store = configureStore({
 			authApi.middleware,
 			documentApi.middleware,
 			serviceApi.middleware,
-			fileApi.middleware
+			fileApi.middleware,
+			categoryApi.middleware
 		)
 });
 

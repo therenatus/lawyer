@@ -7,3 +7,25 @@
     
   }
 }
+.pagination {
+  @apply text-blue-500;
+  .selected {
+    @apply z-10 bg-blue-700 text-white;
+  }
+}
+
+.pagination-info {
+  @apply text-sm text-gray-700 gdark:text-white;
+  span {
+    @apply text-gray-700 gdark:text-white;
+  }
+}
+
+.previous, .next{
+  @apply text-black dark:text-white;
+}
+
+.next{
+  @apply ml-4;
+}
+

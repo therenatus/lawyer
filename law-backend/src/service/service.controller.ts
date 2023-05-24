@@ -2,27 +2,11 @@ import { Roles } from '../auth/decorators/role.decorator';
 import { UpdateServiceDto } from './dto/updateService.dto';
 import { AuthGuard } from './guards/auth.guards';
 import { ServiceEntity } from './service.entity';
-import { IExpressRequest } from '../types/expressRequest.interface';
-import { LoginServiceDto } from './dto/loginServiceDto';
 import { IServiceResponse } from './types/response.interface';
-import { CreateServiceDto } from './dto/createServiceDto';
 import { ServiceService } from './service.service';
-import {
-  Body,
-  Controller,
-  Get,
-  Patch,
-  Post,
-  Put,
-  Req,
-  UseGuards,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { Service } from './decorators/service.decorator';
-import { Request } from 'express';
 import { Role } from '@app/auth/role.enum';
-import { RoleGuard } from '@app/auth/guards/role.guard';
 import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('service')

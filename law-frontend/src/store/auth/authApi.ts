@@ -3,8 +3,6 @@ import Cookies from 'js-cookie';
 
 import { IUser, TUserCreate } from '../../types/user.interface';
 
-const apiEndpoint = 'http://localhost:3333/api';
-
 interface AuthResponse {
 	service: IUser;
 	token: string;
@@ -16,7 +14,7 @@ interface AuthRequest {
 }
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: apiEndpoint,
+	baseUrl: process.env.REACT_APP_BASE_URL,
 	prepareHeaders: (headers, { getState }) => {
 		// const token = (getState() as { auth: { token: string } }).auth.token;
 		const token = Cookies.get('authToken');

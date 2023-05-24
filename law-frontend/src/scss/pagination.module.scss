@@ -1,0 +1,18 @@
+.paginationInfo {
+  @apply text-sm text-gray-700 gdark:text-gray-200;
+  .selected {
+    @apply z-10  bg-blue-700 text-white;
+  }
+  .active {
+    @apply z-10  bg-blue-700 text-white;
+
+  }
+  span {
+    @apply text-gray-700 gdark:text-gray-200;
+  }
+}
+
+
+.previous, .next{
+  @apply text-black gdark:text-white;
+}

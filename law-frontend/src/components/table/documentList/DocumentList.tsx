@@ -1,20 +1,27 @@
 import { format } from 'date-fns';
+import React from 'react';
 import { BiCheck, BiTimer } from 'react-icons/bi';
+import { GrDocumentMissing, GrDocumentVerified } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 
-import { IDocumentResponse } from '../../../types/DocumentResponce.interface';
+import { IDocumentsResponse } from '../../../types/DocumentResponce.interface';
+import { AdditionalTypeEnum } from '../../../types/aditionalType.enum';
 
 import styles from './document.module.scss';
 
-const DocumentList = (data: IDocumentResponse) => {
+interface Props {
+	data: IDocumentsResponse;
+	searchQuery?: (arg: string) => void;
+}
+
+const DocumentList = ({ data, searchQuery }: Props) => {
 	const deadline = (endDate: any) => {
-		const a = Math.ceil(
+		return Math.ceil(
 			(new Date(endDate).getTime() - new Date().getTime()) /
 				(1000 * 3600 * 24)
 		);
-		console.log(a);
-		return a.toString();
 	};
+
 	return (
 		<div className={styles.body}>
 			<div className={styles.blockk}>
@@ -38,6 +45,9 @@ const DocumentList = (data: IDocumentResponse) => {
 							type="text"
 							id="table-search"
 							placeholder="Поиск"
+							onChange={(e) =>
+								searchQuery ? searchQuery(e.target.value) : null
+							}
 						/>
 					</div>
 				</div>
@@ -58,6 +68,9 @@ const DocumentList = (data: IDocumentResponse) => {
 							</th>
 							<th scope="col" className={styles.field}>
 								Статус
+							</th>
+							<th scope="col" className={styles.field}>
+								Доп
 							</th>
 						</tr>
 					</thead>
@@ -80,8 +93,8 @@ const DocumentList = (data: IDocumentResponse) => {
 										</td>
 										<td
 											className={
-												deadline(el.endDate) <= '3' &&
-												deadline(el.endDate) >= '0'
+												deadline(el.endDate) <= 3 &&
+												deadline(el.endDate) >= 0
 													? styles.red
 													: styles.field
 											}
@@ -89,7 +102,7 @@ const DocumentList = (data: IDocumentResponse) => {
 											<p>
 												{format(
 													new Date(el.endDate),
-													'P'
+													'dd/LL/yyyy'
 												)}
 											</p>
 										</td>
@@ -102,6 +115,37 @@ const DocumentList = (data: IDocumentResponse) => {
 												<BiCheck
 													className={styles.svg}
 												/>
+											)}
+										</td>
+										<td className={styles.status}>
+											{el.additionalDocuments.length ? (
+												el.additionalDocuments[
+													el.additionalDocuments
+														.length - 1
+												].type ===
+												AdditionalTypeEnum.TERMINATE ? (
+													<div
+														className={styles.type}
+													>
+														<GrDocumentMissing
+															className={`${styles.svg}`}
+														/>
+
+														<p>Расторгнут</p>
+													</div>
+												) : (
+													<div
+														className={styles.type}
+													>
+														<GrDocumentVerified
+															className={`${styles.svg}`}
+														/>
+
+														<p>Продлен</p>
+													</div>
+												)
+											) : (
+												<></>
 											)}
 										</td>
 									</tr>

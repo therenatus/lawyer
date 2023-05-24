@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DocumentList from '../components/table/documentList/DocumentList';
+import { BodyLayout } from '../layout/BodyLayout';
 import { useGetExpiresQuery } from '../store/document/documentApi';
 
 import { ErrorPage } from './Error';
@@ -14,7 +15,11 @@ export const ExpiresDocuments = (props: Props) => {
 		<>
 			{isError && <ErrorPage />}
 			{isLoading && <p>LOADING.....</p>}
-			{data ? <DocumentList {...data} /> : null}
+			{data ? (
+				<BodyLayout>
+					<DocumentList data={data} />
+				</BodyLayout>
+			) : null}
 		</>
 	);
 };

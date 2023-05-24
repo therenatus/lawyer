@@ -1,5 +1,5 @@
 .body {
-  @apply w-[90%] mx-auto pb-10;
+  @apply pb-10;
   .blockk{
     @apply overflow-x-auto shadow-2xl sm:rounded-lg border gdark:border-gray-700;
     div {
@@ -74,5 +74,17 @@
 .red{
   p{
     @apply text-black gdark:text-red-700 font-bold;
+  }
+}
+
+.type{
+  @apply relative w-[90px] mr-auto;
+
+    p{
+      @apply hidden absolute top-0 left-0 p-2 bg-gray-800 text-white;
+    }
+
+  svg:hover + p {
+    @apply block;
   }
 }

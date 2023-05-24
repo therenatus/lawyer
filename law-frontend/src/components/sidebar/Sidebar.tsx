@@ -14,9 +14,6 @@ const Sidebar = () => {
 	let items;
 	const { data, isLoading, isError } = useMeQuery();
 	const admin = menu.filter((items) => items.role === Role.ADMIN);
-	// const editAdmin = admin.filter(
-	// 	(item) => item.permission === Permission.EDIT
-	// );
 	const readAdmin = admin.filter(
 		(item) => item.permission !== Permission.EDIT
 	);

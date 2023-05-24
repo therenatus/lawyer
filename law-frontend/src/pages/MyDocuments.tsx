@@ -12,7 +12,7 @@ export const MyDocuments = (props: Props) => {
 		<>
 			{isError && <ErrorPage />}
 			{isLoading && <p>LOADING.....</p>}
-			{data ? <DocumentList {...data} /> : null}
+			{data ? <DocumentList data={data} /> : null}
 		</>
 	);
 };

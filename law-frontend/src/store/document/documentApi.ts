@@ -2,16 +2,24 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import Cookies from 'js-cookie';
 
 import { IDocument } from '../../types/Document.interface';
-import { IDocumentResponse } from '../../types/DocumentResponce.interface';
+import {
+	IDocumentResponse,
+	IDocumentsResponse
+} from '../../types/DocumentResponce.interface';
 
 const apiEndpoint = 'http://localhost:3333/api/document';
 
 interface DocumentRes {
 	document: IDocument;
+	pagination: {
+		totalCount: number;
+		count: number;
+		page: number;
+	};
 }
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: apiEndpoint,
+	baseUrl: `${process.env.REACT_APP_BASE_URL}/document`,
 	prepareHeaders: (headers, { getState }) => {
 		// const token = (getState() as { auth: { token: string } }).auth.token;
 		const token = Cookies.get('authToken');
@@ -24,17 +32,17 @@ export const documentApi = createApi({
 	reducerPath: 'api',
 	baseQuery,
 	endpoints: (builder) => ({
-		getAll: builder.query<IDocumentResponse, any>({
-			query: (limit: number = 10, offset: number = 0) =>
-				`?limit=${limit}&offset${offset}`
+		getAll: builder.query<IDocumentsResponse, any>({
+			query: ({ limit = 10, page = 0, q }) =>
+				`?limit=${limit}&offset=${page}&${q ? `q=${q}` : null}`
 		}),
-		getOne: builder.query<DocumentRes, string>({
+		getOne: builder.query<IDocumentResponse, string>({
 			query: (id: string) => `/${id}`
 		}),
-		getByInitiators: builder.query<IDocumentResponse, void>({
+		getByInitiators: builder.query<IDocumentsResponse, void>({
 			query: () => '/initiators'
 		}),
-		getExpires: builder.query<IDocumentResponse, void>({
+		getExpires: builder.query<IDocumentsResponse, void>({
 			query: () => '/line'
 		}),
 		createDocument: builder.mutation({

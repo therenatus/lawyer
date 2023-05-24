@@ -20,17 +20,18 @@ export class DocumentService {
   ) {}
 
   async getAll(query: any): Promise<IDocumentsResponse> {
+    console.log(query);
     const queryBuilder = this.documentRepository
       .createQueryBuilder('document')
       .leftJoinAndSelect('document.author', 'author')
-      .leftJoinAndSelect('document.initiators', 'initiators');
+      .leftJoinAndSelect('document.initiators', 'initiators')
+      .leftJoinAndSelect('document.additionalDocuments', 'additionalDocuments');
 
     queryBuilder.orderBy('document.createdAt', 'DESC');
 
-    const totalCount = await queryBuilder.getCount();
-    if (query.tag) {
-      queryBuilder.andWhere('document.tagList LIKE :tag', {
-        tag: `%${query.tag}%`,
+    if (query.q) {
+      queryBuilder.andWhere('document.title LIKE :tag', {
+        tag: `%${query.q}%`,
       });
     }
 
@@ -49,19 +50,23 @@ export class DocumentService {
       });
     }
 
-    if ((query.limit = 15)) {
-      queryBuilder.limit(query.limit);
+    if (query.limit) {
+      queryBuilder.limit(query.limit * 1);
     }
 
-    if ((query.offset = 0)) {
-      queryBuilder.offset(query.offset);
+    if (query.offset) {
+      queryBuilder.offset((query.offset - 1) * query.limit);
     }
-
+    const totalCount = await queryBuilder.getCount();
     const documents = await queryBuilder.getMany();
-    return { document: documents, totalCount };
+    console.log(documents);
+    return {
+      document: documents,
+      pagination: { totalCount, count: query.limit, page: query.offset - 1 },
+    };
   }
 
-  async getByInitiators(id: string): Promise<IDocumentsResponse> {
+  async getByInitiators(id: string, query: any): Promise<IDocumentsResponse> {
     const queryBuilder = this.documentRepository
       .createQueryBuilder('documents')
       .leftJoinAndSelect('documents.initiators', 'initiators')
@@ -70,11 +75,19 @@ export class DocumentService {
     const totalCount = await queryBuilder.getCount();
     const document = await queryBuilder.getMany();
     console.log(document);
-    return { document: document, totalCount: totalCount };
+    return {
+      document: document,
+      pagination: { totalCount, count: query.limit, page: query.offset },
+    };
   }
 
   async getOne(id: string): Promise<DocumentEntity> {
-    return await this.documentRepository.findOneBy({ id });
+    return await this.documentRepository
+      .createQueryBuilder('document')
+      .leftJoinAndSelect('document.additionalDocuments', 'additionalDocuments')
+      .leftJoinAndSelect('document.initiators', 'initiators')
+      .where('document.id = :id', { id })
+      .getOne();
   }
 
   async create(
@@ -83,10 +96,13 @@ export class DocumentService {
   ): Promise<DocumentEntity> {
     const document = new DocumentEntity();
     const counter = await this.counterRepository.findOneBy({ id: 1 });
+    const initiator = await this.serviceRepository.findOneBy({
+      id: createDocumentDto.service,
+    });
     if (!counter) {
       await this.counterRepository.save(new CounterEntity());
     }
-    if (counter != null || counter != undefined) {
+    if (counter != null) {
       counter.number = counter.number + 1;
       await this.counterRepository.save(counter);
     }
@@ -96,14 +112,17 @@ export class DocumentService {
     Object.assign(document, createDocumentDto);
     document.author = currentUser;
     document.tagList = ['ss', 'ss'];
-    document.initiators = createDocumentDto.service;
+    document.initiators = initiator;
     document.number = number;
-    document.fileName = createDocumentDto.file.name;
-    document.filePath = createDocumentDto.file.url;
+    if (createDocumentDto.file) {
+      document.fileName = createDocumentDto.file.name;
+      document.filePath = createDocumentDto.file.url;
+    }
+    console.log(document);
     return await this.documentRepository.save(document);
   }
 
-  async deadlineNear(): Promise<IDocumentsResponse> {
+  async deadlineNear(query: any): Promise<IDocumentsResponse> {
     const today: Date = new Date();
     const threeDayLater = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000);
     const queryBuilder = this.documentRepository
@@ -121,7 +140,10 @@ export class DocumentService {
     );
     const totalCount = await queryBuilder.getCount();
     const documents = await queryBuilder.getMany();
-    return { document: documents, totalCount };
+    return {
+      document: documents,
+      pagination: { totalCount, count: query.limit, page: query.offset },
+    };
   }
 
   buildDocumentResponseInterface(document: DocumentEntity): IDocumentResponse {

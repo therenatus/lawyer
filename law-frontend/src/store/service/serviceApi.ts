@@ -3,8 +3,6 @@ import Cookies from 'js-cookie';
 
 import { IUser, TUserCreate, TUserEdit } from '../../types/user.interface';
 
-const baseUrl = 'http://localhost:3333/api';
-
 export interface IServiceResponse {
 	service: ServiceType[];
 	token: string;
@@ -21,7 +19,7 @@ export type ServiceType = {
 };
 
 const baseQuery = fetchBaseQuery({
-	baseUrl,
+	baseUrl: process.env.REACT_APP_BASE_URL,
 	prepareHeaders: (headers, { getState }) => {
 		const token = Cookies.get('authToken');
 		headers.set('Authorization', `Bearer ${token}`);

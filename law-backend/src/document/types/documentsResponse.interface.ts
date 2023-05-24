@@ -1,5 +1,9 @@
 import { DocumentType } from './document.type';
 export interface IDocumentsResponse {
   document: DocumentType[];
-  totalCount: number;
+  pagination: {
+    totalCount: number;
+    page: number;
+    count: number;
+  };
 }

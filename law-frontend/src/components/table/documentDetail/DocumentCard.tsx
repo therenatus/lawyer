@@ -1,52 +1,59 @@
+import { format } from 'date-fns';
 import React from 'react';
-import { useParams } from 'react-router-dom';
 
-import { useGetOneQuery } from '../../../store/document/documentApi';
+import { IDocument } from '../../../types/Document.interface';
 
 import styles from './document.module.scss';
 
-type Props = {};
+type Props = {
+	data?: IDocument;
+};
 
-const DocumentDetail = (props: Props) => {
-	const { id } = useParams();
-	const { data, isLoading } = useGetOneQuery(id ? id : '1');
-	const document = data?.document;
+const dataDetail = ({ data }: Props) => {
 	return (
 		<div className={styles.body}>
 			<table>
 				<thead>
 					<tr>
 						<th>Предмет договора</th>
-						<th>Номер</th>
-						<th>Контрагент</th>
+						<th>Регистрационный номер</th>
+						<th>Наименование организации</th>
+						<th>Cумма</th>
 						<th>Статус</th>
 						<th>Служба инициатор</th>
-						<th>Дата публикации</th>
-						<th>Дата конца</th>
+						<th>Дата вступления в силу</th>
+						<th>Дата окончания действия</th>
 						<th>Документ</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>{document?.title}</td>
-						<td>{document?.number}</td>
-						<td>{document?.contrAgent}</td>
-						<td>{document?.status}</td>
-						<td>{document?.initiators?.shortName}</td>
-						<td>{document?.createdAt}</td>
-						<td>{document?.endDate}</td>
-						<td>
-							<a
-								href={`http://localhost:3333/api/${document?.filePath}`}
-							>
-								{document?.fileName}
-							</a>
-						</td>
-					</tr>
+					{data ? (
+						<tr>
+							<td>{data.title}</td>
+							<td>{data.number}</td>
+							<td>{data.contrAgent}</td>
+							<td>{data.price}</td>
+							<td>{data.status}</td>
+							<td>{data.initiators?.shortName}</td>
+							<td>
+								{format(new Date(data.createdAt), 'dd/LL/yyyy')}
+							</td>
+							<td>
+								{format(new Date(data.endDate), 'dd/LL/yyyy')}
+							</td>
+							<td>
+								<a
+									href={`http://localhost:3333/api/${data?.filePath}`}
+								>
+									{data?.fileName}
+								</a>
+							</td>
+						</tr>
+					) : null}
 				</tbody>
 			</table>
 		</div>
 	);
 };
 
-export default DocumentDetail;
+export default dataDetail;

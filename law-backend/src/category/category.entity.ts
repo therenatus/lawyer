@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { DocumentEntity } from '@app/document/document.entity';
+import { DocumentEntity } from '../document/document.entity';
 
 @Entity()
 export class CategoryEntity {

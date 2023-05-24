@@ -1,0 +1,29 @@
+.tab {
+  overflow: hidden;
+}
+.tab-content {
+  max-height: 0;
+  transition: all 0.5s;
+}
+input {
+  &:checked {
+    + {
+      .tab-label {
+        .test {
+          svg {
+            transform: rotate(180deg);
+            stroke: #fff;
+          }
+        }
+        &::after {
+          transform: rotate(90deg);
+        }
+      }
+    }
+    ~ {
+      .tab-content {
+        max-height: 100vh;
+      }
+    }
+  }
+}

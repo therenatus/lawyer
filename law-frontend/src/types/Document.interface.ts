@@ -1,9 +1,11 @@
+import { AdditionalTypeEnum } from './aditionalType.enum';
 import { IUser } from './user.interface';
 
 export interface IDocument {
 	id: string;
 	number: string;
 	title: string;
+	price: string;
 	contrAgent: string;
 	tagList: string[];
 	createdAt: string;
@@ -14,4 +16,14 @@ export interface IDocument {
 	filePath?: string;
 	author: IUser;
 	initiators: IUser;
+	additionalDocuments: Additional[];
+}
+
+export interface Additional {
+	title: string;
+	filePath?: string;
+	fileName?: string;
+	addiction: IDocument;
+	createdAt?: string;
+	type: AdditionalTypeEnum;
 }

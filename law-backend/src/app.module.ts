@@ -20,6 +20,7 @@ import { RoleGuard } from './auth/guards/role.guard';
 import { AuthModule } from './auth/auth.module';
 import { FileModule } from './file/file.module';
 import { CategoryModule } from '@app/category/category.module';
+import { AdditionalModule } from '@app/additional/additional.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { CategoryModule } from '@app/category/category.module';
     AuthModule,
     FileModule,
     CategoryModule,
+    AdditionalModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: RoleGuard }],

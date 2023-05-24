@@ -26,11 +26,10 @@ export class AuthService {
     }
     const newService = new ServiceEntity();
     Object.assign(newService, createServiceDto);
-    if (createServiceDto.permission === 'EDIT') {
-      newService.edit = true;
-    } else {
-      newService.edit = false;
-    }
+    createServiceDto.permission === 'EDIT'
+      ? (newService.edit = true)
+      : (newService.edit = false);
+
     return await this.serviceRepository.save(newService);
   }
 
@@ -38,31 +37,27 @@ export class AuthService {
     shortName,
     password,
   }: LoginServiceDto): Promise<ServiceEntity> {
-    try {
-      const service = await this.serviceRepository
-        .createQueryBuilder('services')
-        .addSelect('services.password')
-        .where('services.shortName = :shortName', { shortName })
-        .getOne();
-      if (!service) {
-        throw new HttpException(
-          'Login or password is not valid',
-          HttpStatus.UNPROCESSABLE_ENTITY,
-        );
-      }
-      const isPassword = await compare(password, service.password);
-      if (!isPassword) {
-        throw new HttpException(
-          'Login or password is not valid',
-          HttpStatus.UNPROCESSABLE_ENTITY,
-        );
-      }
-      delete service.password;
-
-      return service;
-    } catch (error) {
-      console.log('eeeeerrrror', error);
+    const service = await this.serviceRepository
+      .createQueryBuilder('services')
+      .addSelect('services.password')
+      .where('services.shortName = :shortName', { shortName })
+      .getOne();
+    if (!service) {
+      throw new HttpException(
+        'Login or password is not valid',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
     }
+    const isPassword = await compare(password, service.password);
+    if (!isPassword) {
+      throw new HttpException(
+        'Login or password is not valid',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+    delete service.password;
+
+    return service;
   }
 
   async findById(id: string): Promise<ServiceEntity> {
@@ -73,7 +68,6 @@ export class AuthService {
     dto: ChangePasswordDto,
     serviceId: string,
   ): Promise<ServiceEntity> {
-    console.log('ssss', dto);
     const confirmPassword = dto.newPassword === dto.confirmPassword;
     if (!confirmPassword) {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
@@ -87,8 +81,7 @@ export class AuthService {
     if (!validPassword) {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }
-    const hashPassword = await hash(dto.newPassword, 10);
-    service.password = hashPassword;
+    service.password = await hash(dto.newPassword, 10);
     return await this.serviceRepository.save(service);
   }
 

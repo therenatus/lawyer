@@ -1,5 +1,5 @@
 .body{
-  @apply w-[80%] mt-[8%] mx-auto space-y-8 p-10 bg-white rounded-xl shadow-2xl z-10 border gdark:border-gray-700 gdark:bg-darker mb-10;
+  @apply mt-[8%] mx-auto space-y-8 p-10 bg-white rounded-xl shadow-2xl z-10 border gdark:border-gray-700 gdark:bg-darker mb-10;
   div{
     h1{
       @apply text-2xl text-gray-800 gdark:text-gray-400;
