@@ -6,7 +6,7 @@ import { IServiceResponse } from './types/response.interface';
 import { ServiceService } from './service.service';
 import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { Service } from './decorators/service.decorator';
-import { Role } from '@app/auth/role.enum';
+import { Role } from '../auth/role.enum';
 import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('service')

@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 import { FileService } from './file.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { fileStorage } from '@app/document/storage';
 import { Request } from 'express';
 
 @Controller('file')

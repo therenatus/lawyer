@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Role } from '@app/auth/role.enum';
+import { Role } from '../../auth/role.enum';
 import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 
 export class CreateServiceDto {

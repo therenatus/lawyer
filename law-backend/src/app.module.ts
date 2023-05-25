@@ -19,8 +19,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { RoleGuard } from './auth/guards/role.guard';
 import { AuthModule } from './auth/auth.module';
 import { FileModule } from './file/file.module';
-import { CategoryModule } from '@app/category/category.module';
-import { AdditionalModule } from '@app/additional/additional.module';
+import { CategoryModule } from './category/category.module';
+import { AdditionalModule } from './additional/additional.module';
 
 @Module({
   imports: [

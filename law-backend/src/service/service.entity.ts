@@ -1,5 +1,4 @@
 import { Role } from './../auth/role.enum';
-import { DocumentEntity } from '../document/document.entity';
 import { hash } from 'bcrypt';
 import {
   BeforeInsert,
@@ -37,12 +36,6 @@ export class ServiceEntity {
   @ApiProperty({ example: '12345678', description: 'Пароль' })
   @Column({ select: false })
   password: string;
-
-  @OneToMany(() => DocumentEntity, (document) => document.author)
-  documents: DocumentEntity[];
-
-  @OneToMany(() => DocumentEntity, (document) => document.initiators)
-  initiator: DocumentEntity;
 
   @ApiProperty({ example: 'Admin', description: 'Роль' })
   @Column({ type: 'enum', enum: Role, default: Role.SERVICE })

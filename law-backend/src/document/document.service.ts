@@ -83,10 +83,10 @@ export class DocumentService {
 
   async getOne(id: string): Promise<DocumentEntity> {
     return await this.documentRepository
-      .createQueryBuilder('document')
-      .leftJoinAndSelect('document.additionalDocuments', 'additionalDocuments')
-      .leftJoinAndSelect('document.initiators', 'initiators')
-      .where('document.id = :id', { id })
+      .createQueryBuilder('documents')
+      .leftJoinAndSelect('documents.additionalDocuments', 'additionalDocuments')
+      .leftJoinAndSelect('documents.initiators', 'initiators')
+      .where('documents.id = :id', { id })
       .getOne();
   }
 
@@ -110,9 +110,9 @@ export class DocumentService {
       counter ? counter.number : 1
     }`;
     Object.assign(document, createDocumentDto);
-    document.author = currentUser;
+    // document.author = currentUser;
     document.tagList = ['ss', 'ss'];
-    document.initiators = initiator;
+    // document.initiators = initiator;
     document.number = number;
     if (createDocumentDto.file) {
       document.fileName = createDocumentDto.file.name;

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AdditionalEntity } from '@app/additional/additional.entity';
+import { AdditionalEntity } from '../additional/additional.entity';
 import { Repository } from 'typeorm';
-import { CreateAdditionalDto } from '@app/additional/dto/create-additional.dto';
-import { DocumentEntity } from '@app/document/document.entity';
-import { AdditionalTypeEnum } from '@app/types/AdditionalType.enum';
+import { CreateAdditionalDto } from '../additional/dto/create-additional.dto';
+import { DocumentEntity } from '../document/document.entity';
+import { AdditionalTypeEnum } from '../types/AdditionalType.enum';
 
 @Injectable()
 export class AdditionalService {

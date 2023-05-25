@@ -1,4 +1,4 @@
-import { FileResponse } from '@app/document/types/file.response';
+import { FileResponse } from '../document/types/file.response';
 import { Injectable } from '@nestjs/common';
 import { path } from 'app-root-path';
 import { format } from 'date-fns';

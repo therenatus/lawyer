@@ -1,21 +1,10 @@
 import { IDocumentResponse } from './types/documentResponse.interface';
 import { ServiceEntity } from './../service/service.entity';
 import { DocumentService } from './document.service';
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Query,
-  Req,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateDocumentDto } from './dto/createDocument.dto';
-import { Service } from '@app/service/decorators/service.decorator';
+import { Service } from '../service/decorators/service.decorator';
 import { IDocumentsResponse } from './types/documentsResponse.interface';
-import { DocumentEntity } from '@app/document/document.entity';
 
 @Controller('document')
 export class DocumentController {

@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
-import { LoginServiceDto } from '@app/service/dto/loginServiceDto';
-import { IServiceResponse } from '@app/service/types/response.interface';
-import { CreateServiceDto } from '@app/service/dto/createServiceDto';
+import { LoginServiceDto } from '../service/dto/loginServiceDto';
+import { IServiceResponse } from '../service/types/response.interface';
+import { CreateServiceDto } from '../service/dto/createServiceDto';
 import { AuthService } from './auth.service';
 import { buildResponseInterface } from '../config/service-response';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ServiceEntity } from '@app/service/service.entity';
-import { Service } from '@app/service/decorators/service.decorator';
+import { ServiceEntity } from '../service/service.entity';
+import { Service } from '../service/decorators/service.decorator';
 import { AuthGuards } from './guards/auth.guard';
 import { ChangePasswordDto } from './dto/change-password.dto';
 

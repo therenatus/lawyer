@@ -1,13 +1,14 @@
 import { ServiceService } from '../service.service';
-import { IExpressRequest } from '@app/types/expressRequest.interface';
+import { IExpressRequest } from '../../types/expressRequest.interface';
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { verify, JwtPayload } from 'jsonwebtoken';
-import { NextFunction, Request, Response } from 'express';
+import { JwtPayload, verify } from 'jsonwebtoken';
+import { NextFunction, Response } from 'express';
 
 type customJwtPayload = JwtPayload & {
   shortName: string;
   id: string;
 };
+
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   constructor(private readonly serviceService: ServiceService) {}

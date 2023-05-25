@@ -1,7 +1,7 @@
-import { CreateServiceDto } from '@app/service/dto/createServiceDto';
-import { LoginServiceDto } from '@app/service/dto/loginServiceDto';
-import { ServiceEntity } from '@app/service/service.entity';
-import { IServiceResponse } from '@app/service/types/response.interface';
+import { CreateServiceDto } from '../service/dto/createServiceDto';
+import { LoginServiceDto } from '../service/dto/loginServiceDto';
+import { ServiceEntity } from '../service/service.entity';
+import { IServiceResponse } from '../service/types/response.interface';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare, hash } from 'bcrypt';

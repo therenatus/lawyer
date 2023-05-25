@@ -2,8 +2,8 @@ import { ServiceService } from './../service/service.service';
 import { AuthController } from './auth.controller';
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ServiceModule } from '@app/service/user.module';
-import { ServiceEntity } from '@app/service/service.entity';
+import { ServiceModule } from '../service/user.module';
+import { ServiceEntity } from '../service/service.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({

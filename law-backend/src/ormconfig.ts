@@ -1,4 +1,8 @@
 import { DataSourceOptions } from 'typeorm';
+import { AdditionalEntity } from './additional/additional.entity';
+import { CategoryEntity } from './category/category.entity';
+import { DocumentEntity } from './document/document.entity';
+import { ServiceEntity } from './service/service.entity';
 
 const config: DataSourceOptions = {
   type: 'postgres',
@@ -7,7 +11,7 @@ const config: DataSourceOptions = {
   username: 'law',
   password: 'password',
   database: 'law',
-  entities: [__dirname + '/**/*.entity{.ts, js}'],
+  entities: [AdditionalEntity, CategoryEntity, DocumentEntity, ServiceEntity],
   synchronize: false,
   migrations: [__dirname + '/migrations/**/*{.ts, js}'],
 };

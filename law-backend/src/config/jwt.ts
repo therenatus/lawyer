@@ -1,4 +1,4 @@
-import { ServiceEntity } from '@app/service/service.entity';
+import { ServiceEntity } from '../service/service.entity';
 import { sign } from 'jsonwebtoken';
 
 export const generateJwt = (service: ServiceEntity): string => {
