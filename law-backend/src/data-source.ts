@@ -5,7 +5,7 @@ const configMigration = new DataSource({
   host: 'localhost',
   port: 5432,
   username: 'law',
-  password: 'password',
+  password: 'law',
   database: 'law',
   entities: [__dirname + '/**/*.entity{.ts, js}'],
   synchronize: false,

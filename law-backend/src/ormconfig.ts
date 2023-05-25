@@ -9,7 +9,7 @@ const config: DataSourceOptions = {
   host: 'localhost',
   port: 5432,
   username: 'law',
-  password: 'password',
+  password: 'law',
   database: 'law',
   entities: [AdditionalEntity, CategoryEntity, DocumentEntity, ServiceEntity],
   synchronize: false,
