@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { DocumentEntity } from '../document/document.entity';
 
 @Entity({ name: 'services' })
 export class ServiceEntity {
@@ -36,6 +37,12 @@ export class ServiceEntity {
   @ApiProperty({ example: '12345678', description: 'Пароль' })
   @Column({ select: false })
   password: string;
+
+  @OneToMany(() => DocumentEntity, (document) => document.author)
+  documents: DocumentEntity[];
+
+  @OneToMany(() => DocumentEntity, (document) => document.initiators)
+  initiator: string;
 
   @ApiProperty({ example: 'Admin', description: 'Роль' })
   @Column({ type: 'enum', enum: Role, default: Role.SERVICE })

@@ -110,9 +110,9 @@ export class DocumentService {
       counter ? counter.number : 1
     }`;
     Object.assign(document, createDocumentDto);
-    // document.author = currentUser;
+    document.author = currentUser;
     document.tagList = ['ss', 'ss'];
-    // document.initiators = initiator;
+    document.initiators = initiator;
     document.number = number;
     if (createDocumentDto.file) {
       document.fileName = createDocumentDto.file.name;

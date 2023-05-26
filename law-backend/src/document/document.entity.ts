@@ -49,15 +49,15 @@ export class DocumentEntity {
   @Column()
   price: string;
 
-  // @ManyToOne(() => ServiceEntity, (service) => service.documents, {
-  //   eager: true,
-  // })
-  // author: ServiceEntity;
-  //
-  // @ManyToOne(() => ServiceEntity, (service) => service.initiator, {
-  //   eager: true,
-  // })
-  // initiators: ServiceEntity;
+  @ManyToOne(() => ServiceEntity, (service) => service.documents, {
+    eager: true,
+  })
+  author: ServiceEntity;
+
+  @ManyToOne(() => ServiceEntity, (service) => service.initiator, {
+    eager: true,
+  })
+  initiators: ServiceEntity;
 
   @ManyToOne(() => CategoryEntity, (category) => category.id)
   category: CategoryEntity;
