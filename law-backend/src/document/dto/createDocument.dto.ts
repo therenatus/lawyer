@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 import { IFile } from '../../types/file.interface';
 
 export class CreateDocumentDto {

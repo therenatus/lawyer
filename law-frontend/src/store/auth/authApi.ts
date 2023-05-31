@@ -15,7 +15,7 @@ interface AuthRequest {
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: process.env.REACT_APP_BASE_URL,
-	prepareHeaders: (headers, { getState }) => {
+	prepareHeaders: (headers) => {
 		// const token = (getState() as { auth: { token: string } }).auth.token;
 		const token = Cookies.get('authToken');
 		headers.set('Authorization', `Bearer ${token}`);

@@ -20,9 +20,9 @@ interface ISelect {
 }
 
 const documentType: ISelect[] = [
-	{ id: 0, value: 'Расходный' },
 	{ id: 1, value: 'Доходный' },
-	{ id: 2, value: 'Без оплаты' }
+	{ id: 2, value: 'Расходный' },
+	{ id: 3, value: 'Без оплаты' }
 ];
 
 interface FormValues {
@@ -65,10 +65,14 @@ const CreateDocument = () => {
 		endDate: yup.string().required('Пожалуйста, выберите дату'),
 		file: yup
 			.mixed()
-			.required('Загрузите файл')
-			.test('require', 'Загрузите файл', (value: AnyPresentValue) => {
-				return value && value[0];
-			})
+			.required('Пожалуйста, загрузите файл')
+			.test(
+				'require',
+				'Пожалуйста, загрузите файл',
+				(value: AnyPresentValue) => {
+					return value && value[0];
+				}
+			)
 	});
 	const {
 		handleSubmit,
@@ -86,16 +90,20 @@ const CreateDocument = () => {
 		if (toUpload && toUpload[0] !== undefined) {
 			formData.append('files', toUpload[0]);
 			axios
-				.post('http://localhost:3333/api/file/upload', formData, {
-					headers: {
-						'Content-Type': 'multipart/form-data, charset=utf-8'
-					},
-					responseEncoding: 'utf-8'
-				})
+				.post(
+					`${process.env.REACT_APP_BASE_URL}/file/upload`,
+					formData,
+					{
+						headers: {
+							'Content-Type': 'multipart/form-data, charset=utf-8'
+						},
+						responseEncoding: 'utf-8'
+					}
+				)
 				.then((res) => {
 					setFile(res.data);
 				})
-				.catch((err) => {
+				.catch(() => {
 					toast.error('Произошла ощибка при загрузке файла');
 				});
 		}
@@ -370,7 +378,7 @@ const CreateDocument = () => {
 											<a
 												className="file block"
 												target="_blank"
-												href={`http://${process.env.REACT_APP_BASE_URL}/api/uploads/${file.url}`}
+												href={`http://${process.env.REACT_APP_BASE_URL}/uploads/${file.url}`}
 											>
 												{file.name}
 											</a>

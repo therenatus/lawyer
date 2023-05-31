@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { IDocumentsResponse } from './types/documentsResponse.interface';
 import { CounterEntity } from './counter.entity';
 import { Padding } from '../config/padding';
+import { CategoryEntity } from '../category/category.entity';
 
 @Injectable()
 export class DocumentService {
@@ -18,6 +19,8 @@ export class DocumentService {
     private readonly serviceRepository: Repository<ServiceEntity>,
     @InjectRepository(CounterEntity)
     private readonly counterRepository: Repository<CounterEntity>,
+    @InjectRepository(CategoryEntity)
+    private readonly categoryRepository: Repository<CategoryEntity>,
   ) {}
 
   async getAll(query: any): Promise<IDocumentsResponse> {
@@ -96,13 +99,14 @@ export class DocumentService {
     currentUser: ServiceEntity,
     createDocumentDto: CreateDocumentDto,
   ): Promise<DocumentEntity> {
-    console.log('DDDTTOO', createDocumentDto);
     const document = new DocumentEntity();
     const counter = await this.counterRepository.findOneBy({ id: 1 });
+    const category = await this.categoryRepository.findOneBy({
+      id: createDocumentDto.category,
+    });
     const initiator = await this.serviceRepository.findOneBy({
       id: createDocumentDto.service,
     });
-    console.log('COUNTER', counter);
     if (!counter) {
       await this.counterRepository.save(new CounterEntity());
     }
@@ -113,7 +117,7 @@ export class DocumentService {
     const number = `${createDocumentDto.type}${Padding(
       initiator.code,
       2,
-    )}${Padding(counter ? counter.number : 1, 3)}`;
+    )}${Padding(counter ? counter.number : 1, 3)}/${category.index}`;
     Object.assign(document, createDocumentDto);
     document.author = currentUser;
     document.tagList = ['ss', 'ss'];
@@ -123,8 +127,7 @@ export class DocumentService {
       document.fileName = createDocumentDto.file.name;
       document.filePath = createDocumentDto.file.url;
     }
-    console.log(document);
-    return 'a' as any;
+    return document;
   }
 
   async deadlineNear(query: any): Promise<IDocumentsResponse> {
