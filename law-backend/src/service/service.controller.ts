@@ -16,7 +16,8 @@ export class ServiceController {
   @ApiOperation({ summary: 'GET All Services' })
   @Get('all')
   async getAll(): Promise<ServiceEntity[]> {
-    return await this.service.findAll();
+    const all = await this.service.findAll();
+    return all.filter((item) => item.role !== 'superAdmin');
   }
 
   @ApiOperation({ summary: 'GET Service' })

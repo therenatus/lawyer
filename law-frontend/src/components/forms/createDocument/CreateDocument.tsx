@@ -285,7 +285,7 @@ const CreateDocument = () => {
 										</label>
 										<div>
 											<input
-												type="datetime-local"
+												type="date"
 												placeholder="Select a date"
 												{...register('startDate')}
 											/>
@@ -304,7 +304,7 @@ const CreateDocument = () => {
 										</label>
 										<div>
 											<input
-												type="datetime-local"
+												type="date"
 												placeholder="Select a date"
 												{...register('endDate')}
 											/>
