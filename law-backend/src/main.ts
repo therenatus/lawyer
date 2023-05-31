@@ -1,3 +1,5 @@
+import { getBodyParserOptions } from '@nestjs/platform-express/adapters/utils/get-body-parser-options.util';
+
 if (!process.env.IS_TS_NODE) {
   require('module-alias/register');
 }
@@ -13,6 +15,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   app.enableCors();
+  app.use(urlencoded({ extended: true }));
   const config = new DocumentBuilder()
     .setTitle('The App for lawyers')
     .setDescription('Documentation for REST API')

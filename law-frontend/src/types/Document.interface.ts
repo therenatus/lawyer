@@ -14,6 +14,7 @@ export interface IDocument {
 	status: string;
 	fileName?: string;
 	filePath?: string;
+	category: ICategory;
 	author: IUser;
 	initiators: IUser;
 	additionalDocuments: Additional[];
@@ -26,4 +27,10 @@ export interface Additional {
 	addiction: IDocument;
 	createdAt?: string;
 	type: AdditionalTypeEnum;
+}
+
+export interface ICategory {
+	id: string;
+	name: string;
+	index: string;
 }

@@ -20,7 +20,7 @@ export class FileController {
     @Req() req: Request,
   ) {
     try {
-      return this.service.upload([files]);
+      return this.service.upload(files);
     } catch (error) {
       console.log('errror', error);
     }

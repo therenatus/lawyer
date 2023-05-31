@@ -58,6 +58,9 @@ const DocumentList = ({ data, searchQuery }: Props) => {
 								Название
 							</th>
 							<th scope="col" className={styles.field}>
+								Категория
+							</th>
+							<th scope="col" className={styles.field}>
 								Номер
 							</th>
 							<th scope="col" className={styles.field}>
@@ -84,6 +87,9 @@ const DocumentList = ({ data, searchQuery }: Props) => {
 												{el.title}
 											</Link>
 										</th>
+										<td className={styles.field}>
+											{el.category.name}
+										</td>
 										<td className={styles.field}>
 											{el.number}
 										</td>

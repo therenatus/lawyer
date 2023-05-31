@@ -2,6 +2,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { BsFillTrashFill } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import * as yup from 'yup';
 
 import { useGetAllCategoriesQuery } from '../../../store/category/categoryApi';
@@ -16,71 +20,70 @@ interface ISelect {
 }
 
 const documentType: ISelect[] = [
-	{ id: 0, value: 'Договора' },
-	{ id: 1, value: 'Доп соглашение' },
-	{ id: 2, value: 'Соглашение о расторжении' }
-];
-
-const documentSubType: ISelect[] = [
 	{ id: 0, value: 'Расходный' },
 	{ id: 1, value: 'Доходный' },
 	{ id: 2, value: 'Без оплаты' }
 ];
 
 interface FormValues {
-	name: string;
+	title: string;
 	contrAgent: string;
 	price: string;
 	service: string;
 	type: string;
 	subType: string;
-	endDAte: string;
+	startDate: string;
+	endDate: string;
+	category: string;
 	file: FileList;
 }
 
 interface IFile {
 	url: string;
-	path: string;
+	name: string;
 }
 
 const CreateDocument = () => {
-	const [file, setFile] = useState<IFile[]>([]);
-	const {
-		data: serviceData,
-		isLoading: serviceLoading,
-		isSuccess: serviceSuccess
-	} = useGetAllServicesQuery();
-	const {
-		data: categoryData,
-		isLoading: categoryLoading,
-		isError: categoryError
-	} = useGetAllCategoriesQuery();
-	const [create, { isLoading, isError }] = useCreateDocumentMutation();
+	const [file, setFile] = useState<IFile | null>(null);
+	const navigate = useNavigate();
+	const { data: serviceData } = useGetAllServicesQuery();
+
+	const { data: categoryData } = useGetAllCategoriesQuery();
+
+	const [create, { isError, isSuccess }] = useCreateDocumentMutation();
+	interface AnyPresentValue {
+		[index: number]: any;
+	}
 
 	const schema = yup.object().shape({
-		title: yup.string().required('Title is required'),
-		contrAgent: yup.string().required('Title is required'),
-		price: yup.string().required('Title is required'),
-		service: yup.string().required('Title is required'),
-		type: yup.string().required('Title is required'),
-		endDate: yup.string().required('Title is required'),
-		file: yup.mixed().required('A file is required')
+		title: yup.string().required('Обьязательное поле'),
+		contrAgent: yup.string().required('Обьязательное поле'),
+		price: yup.string().required('Обьязательное поле'),
+		service: yup.string().required('Пожалуйста, выберите вариант'),
+		type: yup.string().required('Пожалуйста, выберите вариант'),
+		startDate: yup.string().required('Пожалуйста, выберите дату'),
+		endDate: yup.string().required('Пожалуйста, выберите дату'),
+		file: yup
+			.mixed()
+			.required('Загрузите файл')
+			.test('require', 'Загрузите файл', (value: AnyPresentValue) => {
+				return value && value[0];
+			})
 	});
 	const {
 		handleSubmit,
 		register,
 		watch,
 		formState: { errors }
-	} = useForm({
+	} = useForm<FormValues>({
 		resolver: yupResolver(schema)
 	});
 
-	const typeFields = watch('type');
-	const toUpload: FileList = watch('file');
+	let toUpload: FileList | undefined = watch('file');
 
 	useEffect(() => {
 		const formData = new FormData();
-		if (toUpload && toUpload[0] != undefined) {
+		if (toUpload && toUpload[0] !== undefined) {
 			formData.append('files', toUpload[0]);
 			axios
 				.post('http://localhost:3333/api/file/upload', formData, {
@@ -90,24 +93,37 @@ const CreateDocument = () => {
 					responseEncoding: 'utf-8'
 				})
 				.then((res) => {
-					setFile((prev) => [...prev, res.data[0]]);
+					setFile(res.data);
 				})
 				.catch((err) => {
-					console.log(err);
+					toast.error('Произошла ощибка при загрузке файла');
 				});
 		}
 	}, [toUpload]);
 	const onSubmit = (e: any) => {
-		e.file = file[0];
+		e.file = file;
+		console.log(e);
 		create(e);
 	};
 
+	if (isError) {
+		toast.error('Произошла ощибка');
+	}
+
+	if (isSuccess) {
+		toast.success('Документ успешно сохранен');
+		setTimeout(() => {
+			navigate('/');
+		}, 3000);
+	}
+
 	return (
 		<div className={styles.body}>
+			<ToastContainer theme={'colored'} className="h-fit" />
 			<div>
 				<div>
 					<div>
-						<h2>Создать</h2>
+						<h2>Создать документ</h2>
 					</div>
 					<div>
 						<form onSubmit={handleSubmit(onSubmit)}>
@@ -127,25 +143,26 @@ const CreateDocument = () => {
 
 										{errors.title &&
 											errors.title.message && (
-												<>{errors.title.message}</>
+												<span className="h-5 text-red-500 mt-1 mb-3 block text-sm">
+													{errors.title.message}
+												</span>
 											)}
 									</div>
 									<div>
 										<label>
-											Контрагент
+											Наименование организации
 											<abbr title="required">*</abbr>
 										</label>
 										<input
 											placeholder="Контрагент"
 											type="text"
 											id="integration_shop_name"
-											{...register('contrAgent', {
-												required:
-													'Поле обязательно к заполнению'
-											})}
+											{...register('contrAgent')}
 										/>
 										{errors.contrAgent?.message && (
-											<>{errors.contrAgent.message}</>
+											<span className="h-5 text-red-500 mt-1 mb-3 block text-sm">
+												{errors.contrAgent.message}
+											</span>
 										)}
 									</div>
 									<div>
@@ -157,13 +174,12 @@ const CreateDocument = () => {
 											placeholder="Сумма"
 											type="text"
 											id="integration_shop_name"
-											{...register('price', {
-												required:
-													'Поле обязательно к заполнению'
-											})}
+											{...register('price')}
 										/>
 										{errors.price?.message && (
-											<>{errors.price.message}</>
+											<span className="h-5 text-red-500 mt-1 mb-3 block text-sm">
+												{errors.price.message}
+											</span>
 										)}
 									</div>
 									<div>
@@ -172,16 +188,10 @@ const CreateDocument = () => {
 											<abbr title="required">*</abbr>
 										</label>
 										<select
-											defaultValue={undefined}
 											className={styles.select}
-											{...register('service', {
-												required:
-													'Поле обязательно к заполнению'
-											})}
+											defaultValue={''}
+											{...register('service')}
 										>
-											{errors.service?.message && (
-												<>{errors.service.message}</>
-											)}
 											<option value="" disabled>
 												Выберите службу
 											</option>
@@ -195,6 +205,11 @@ const CreateDocument = () => {
 													</option>
 												))}
 										</select>
+										{errors.service?.message && (
+											<span className="h-5 text-red-500 mt-1 mb-3 block text-sm">
+												{errors.service.message}
+											</span>
+										)}
 									</div>
 									<div>
 										<label>
@@ -204,14 +219,8 @@ const CreateDocument = () => {
 										<select
 											defaultValue={''}
 											className={styles.select}
-											{...register('type', {
-												required:
-													'Поле обязательно к заполнению'
-											})}
+											{...register('type')}
 										>
-											{errors.type?.message && (
-												<>{errors.type.message}</>
-											)}
 											<option value="" disabled>
 												Выберите тип
 											</option>
@@ -224,35 +233,12 @@ const CreateDocument = () => {
 												</option>
 											))}
 										</select>
+										{errors.type?.message && (
+											<span className="h-5 text-red-500 mt-1 mb-3 block text-sm">
+												{errors.type.message}
+											</span>
+										)}
 									</div>
-									{Number(typeFields) === 0 && (
-										<div>
-											<label>
-												Вид документа
-												<abbr title="required">*</abbr>
-											</label>
-											<select
-												defaultValue={''}
-												className={styles.select}
-												{...register('subType')}
-											>
-												{errors.type?.message && (
-													<>{errors.type.message}</>
-												)}
-												<option value="" disabled>
-													Выберите вид
-												</option>
-												{documentSubType.map((el) => (
-													<option
-														value={el.id}
-														key={el.id}
-													>
-														{el.value}
-													</option>
-												))}
-											</select>
-										</div>
-									)}
 									<div>
 										<label>
 											Категория документа
@@ -263,9 +249,6 @@ const CreateDocument = () => {
 											className={styles.select}
 											{...register('category')}
 										>
-											{errors.type?.message && (
-												<>{errors.type.message}</>
-											)}
 											<option value="" disabled>
 												Выберите вид
 											</option>
@@ -278,47 +261,50 @@ const CreateDocument = () => {
 												</option>
 											))}
 										</select>
+										{errors.category?.message && (
+											<span className="h-5 text-red-500 mt-1 mb-3 block text-sm">
+												{errors.category.message}
+											</span>
+										)}
 									</div>
 								</div>
 
 								<div className={styles.date}>
 									<div className="w-[50%]">
 										<label>
-											Начало
+											Дата вступления в силу
 											<abbr title="required">*</abbr>
 										</label>
 										<div>
 											<input
 												type="datetime-local"
 												placeholder="Select a date"
-												{...register('startDate', {
-													required:
-														'Поле обязательно к заполнению'
-												})}
+												{...register('startDate')}
 											/>
 
-											{errors.endDate?.message && (
-												<>{errors.endDate.message}</>
+											{errors.startDate?.message && (
+												<span className="h-5 text-red-500 mt-1 mb-3 block text-sm">
+													{errors.startDate.message}
+												</span>
 											)}
 										</div>
 									</div>
 									<div className="w-[50%]">
 										<label>
-											Конец
+											Дата окончания действия
 											<abbr title="required">*</abbr>
 										</label>
 										<div>
 											<input
 												type="datetime-local"
 												placeholder="Select a date"
-												{...register('endDate', {
-													required:
-														'Поле обязательно к заполнению'
-												})}
+												{...register('endDate')}
 											/>
 
 											{errors.endDate?.message && (
-												<>{errors.endDate.message}</>
+												<span className="h-5 text-red-500 mt-1 mb-3 block text-sm">
+													{errors.endDate.message}
+												</span>
 											)}
 										</div>
 									</div>
@@ -326,54 +312,76 @@ const CreateDocument = () => {
 							</div>
 							<div className={styles.uploadFile}>
 								<label className={styles.header}>
-									Загрузка файла
+									Загрузка документа
 								</label>
-								<label
-									htmlFor="dropzone-file"
-									className={styles.inputField}
-								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										strokeWidth="2"
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-										/>
-									</svg>
+								{errors.file?.message && (
+									<span className="h-5 text-red-500 mt-1 mb-3 block text-sm mr-auto">
+										{errors.file.message}
+									</span>
+								)}
+								{!file ? (
+									<>
+										<label
+											htmlFor="dropzone-file"
+											className={styles.inputField}
+										>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke="currentColor"
+												strokeWidth="2"
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+												/>
+											</svg>
 
-									<h2>Выбрать файл</h2>
+											<h2>Выбрать файл</h2>
 
-									<p>Загрузите файл в формате .pdf</p>
+											<p>Загрузите файл в формате .pdf</p>
 
-									<input
-										id="dropzone-file"
-										type="file"
-										className="hidden"
-										{...register('file', {
-											required: 'Not Empty'
-										})}
-									/>
-									{errors.file?.message && (
-										<>{errors.file.message}</>
-									)}
-								</label>
-
-								<section>
-									<ul id="gallery">
-										<li id="empty">
-											<img
-												src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
-												alt="no data"
+											<input
+												id="dropzone-file"
+												type="file"
+												className="hidden"
+												accept="application/pdf"
+												{...register('file')}
 											/>
-											<span>Файл не выбран</span>
-										</li>
-									</ul>
-								</section>
+										</label>
+
+										<section>
+											<ul id="gallery">
+												<li id="empty">
+													<img
+														src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
+														alt="no data"
+													/>
+													<span>Файл не выбран</span>
+												</li>
+											</ul>
+										</section>
+									</>
+								) : (
+									<>
+										<div className="flex items-center justify-between bg-blue-200 dark:bg-blue-400 rounded-full px-10 py-2">
+											<a
+												className="file block"
+												target="_blank"
+												href={`http://${process.env.REACT_APP_BASE_URL}/api/uploads/${file.url}`}
+											>
+												{file.name}
+											</a>
+											<BsFillTrashFill
+												size={20}
+												className="ml-auto text-gray-500 cursor-pointer hover:text-gray-700 block"
+												onClick={() => setFile(null)}
+											/>
+										</div>
+									</>
+								)}
 							</div>
 							<div className={styles.buttonBlock}>
 								<button type="submit">Сохранить</button>

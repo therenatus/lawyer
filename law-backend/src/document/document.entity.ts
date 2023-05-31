@@ -37,6 +37,9 @@ export class DocumentEntity {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   endDate: Date;
 
+  // @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  // startDate: Date;
+
   @Column({ type: 'enum', enum: Status, default: Status.TODO })
   status: Status;
 

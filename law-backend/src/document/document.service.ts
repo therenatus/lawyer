@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IDocumentsResponse } from './types/documentsResponse.interface';
 import { CounterEntity } from './counter.entity';
+import { Padding } from '../config/padding';
 
 @Injectable()
 export class DocumentService {
@@ -25,7 +26,8 @@ export class DocumentService {
       .createQueryBuilder('document')
       .leftJoinAndSelect('document.author', 'author')
       .leftJoinAndSelect('document.initiators', 'initiators')
-      .leftJoinAndSelect('document.additionalDocuments', 'additionalDocuments');
+      .leftJoinAndSelect('document.additionalDocuments', 'additionalDocuments')
+      .leftJoinAndSelect('document.category', 'category');
 
     queryBuilder.orderBy('document.createdAt', 'DESC');
 
@@ -94,11 +96,13 @@ export class DocumentService {
     currentUser: ServiceEntity,
     createDocumentDto: CreateDocumentDto,
   ): Promise<DocumentEntity> {
+    console.log('DDDTTOO', createDocumentDto);
     const document = new DocumentEntity();
     const counter = await this.counterRepository.findOneBy({ id: 1 });
     const initiator = await this.serviceRepository.findOneBy({
       id: createDocumentDto.service,
     });
+    console.log('COUNTER', counter);
     if (!counter) {
       await this.counterRepository.save(new CounterEntity());
     }
@@ -106,9 +110,10 @@ export class DocumentService {
       counter.number = counter.number + 1;
       await this.counterRepository.save(counter);
     }
-    const number = `${createDocumentDto.type}${currentUser.code}${
-      counter ? counter.number : 1
-    }`;
+    const number = `${createDocumentDto.type}${Padding(
+      initiator.code,
+      2,
+    )}${Padding(counter ? counter.number : 1, 3)}`;
     Object.assign(document, createDocumentDto);
     document.author = currentUser;
     document.tagList = ['ss', 'ss'];
@@ -119,7 +124,7 @@ export class DocumentService {
       document.filePath = createDocumentDto.file.url;
     }
     console.log(document);
-    return await this.documentRepository.save(document);
+    return 'a' as any;
   }
 
   async deadlineNear(query: any): Promise<IDocumentsResponse> {
