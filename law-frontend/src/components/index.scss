@@ -66,16 +66,23 @@
   transform-origin: 0 0;
 }
 
-.loadingio-spinner-dual-ball-gwrnt244job {
+.spinner-ball {
   width: 197px;
   height: 197px;
   display: inline-block;
   overflow: hidden;
-  background: #24293E;
+  background: var(--bg-color);
   margin-left: calc(50% - (197px / 2));
   margin-top: 15%;
 }
 
 .body{
   width: 100%;
+}
+[data-theme="dark"] {
+  --bg-color: #24293E;
+}
+
+[data-theme="light"] {
+  --bg-color: #fff;
 }

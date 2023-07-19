@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BsCheck, BsCheckCircleFill, BsFillPencilFill } from 'react-icons/bs';
 import * as yup from 'yup';
@@ -34,9 +34,18 @@ const ServiceList = (props: Props) => {
 	const [rowId, setRowId] = useState<string>('');
 
 	const toChangeData = (id: IUser) => {
-		setEdit(true);
-		setRowId(id.id);
+		setEdit(!edit);
+		if (!edit) {
+			setRowId(id.id);
+		} else {
+			setRowId('');
+		}
 	};
+
+	useEffect(() => {
+		const ser = data?.find((el) => el.id === rowId);
+		setCurrentService(ser);
+	}, [rowId]);
 
 	const onSubmit = (e: IUser) => {
 		e.id = rowId;
@@ -61,65 +70,74 @@ const ServiceList = (props: Props) => {
 						</tr>
 					</thead>
 					<tbody>
-						{data !== undefined &&
-							data.map((el) => (
-								<tr
-									key={el.id}
-									className={
-										el.id === rowId
-											? styles.toChange
-											: styles.staticc
-									}
-								>
-									{rowId === el.id ? (
-										<>
-											<td>
-												<input
-													type="text"
-													defaultValue={el && el.name}
-													{...register('name')}
-												/>
-											</td>
-											<td>
-												<input
-													type="text"
-													defaultValue={
-														el && el.shortName
-													}
-													{...register('shortName')}
-												/>
-											</td>
-											<td>
-												<input
-													type="number"
-													defaultValue={el && el.code}
-													{...register('code')}
-												/>
-											</td>
-											<td className={styles.button}>
-												<button type="submit">
-													<BsCheckCircleFill
-														onClick={() => onSubmit}
+						{data
+							? data.map((el, idx) => (
+									<tr
+										key={el.id}
+										className={
+											el.id === rowId
+												? styles.toChange
+												: styles.staticc
+										}
+									>
+										{rowId === el.id ? (
+											<>
+												<td>
+													<input
+														type="text"
+														value={
+															currentService?.name
+														}
+														{...register('name')}
 													/>
-												</button>
-											</td>
-										</>
-									) : (
-										<>
-											<td>{el.name}</td>
-											<td>{el.shortName}</td>
-											<td>{el.code}</td>
-											<td className={styles.button}>
-												<BsFillPencilFill
-													onClick={() =>
-														toChangeData(el)
-													}
-												/>
-											</td>
-										</>
-									)}
-								</tr>
-							))}
+												</td>
+												<td>
+													<input
+														type="text"
+														defaultValue={
+															currentService?.shortName
+														}
+														{...register(
+															'shortName'
+														)}
+													/>
+												</td>
+												<td>
+													<input
+														type="number"
+														defaultValue={
+															currentService?.code
+														}
+														{...register('code')}
+													/>
+												</td>
+												<td className={styles.button}>
+													<button type="submit">
+														<BsCheckCircleFill
+															onClick={() =>
+																onSubmit
+															}
+														/>
+													</button>
+												</td>
+											</>
+										) : (
+											<>
+												<td>{el.name}</td>
+												<td>{el.shortName}</td>
+												<td>{el.code}</td>
+												<td className={styles.button}>
+													<BsFillPencilFill
+														onClick={() =>
+															toChangeData(el)
+														}
+													/>
+												</td>
+											</>
+										)}
+									</tr>
+							  ))
+							: null}
 					</tbody>
 				</table>
 			</form>

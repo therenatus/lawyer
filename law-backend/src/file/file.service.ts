@@ -27,7 +27,6 @@ export class FileService {
         url: `${dateFolder}/${file.originalname}`,
         name: utf8.decode(file.originalname),
       };
-      console.log(res);
       return res;
     } catch (error) {
       console.log('error ser', error);

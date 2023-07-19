@@ -24,7 +24,6 @@ export class DocumentService {
   ) {}
 
   async getAll(query: any): Promise<IDocumentsResponse> {
-    console.log(query);
     const queryBuilder = this.documentRepository
       .createQueryBuilder('document')
       .leftJoinAndSelect('document.author', 'author')
@@ -64,7 +63,6 @@ export class DocumentService {
     }
     const totalCount = await queryBuilder.getCount();
     const documents = await queryBuilder.getMany();
-    console.log(documents);
     return {
       document: documents,
       pagination: { totalCount, count: query.limit, page: query.offset - 1 },
@@ -79,7 +77,6 @@ export class DocumentService {
     queryBuilder.orderBy('documents.endDate', 'DESC');
     const totalCount = await queryBuilder.getCount();
     const document = await queryBuilder.getMany();
-    console.log(document);
     return {
       document: document,
       pagination: { totalCount, count: query.limit, page: query.offset },
@@ -127,7 +124,7 @@ export class DocumentService {
       document.fileName = createDocumentDto.file.name;
       document.filePath = createDocumentDto.file.url;
     }
-    return document;
+    return await this.documentRepository.save(document);
   }
 
   async deadlineNear(query: any): Promise<IDocumentsResponse> {

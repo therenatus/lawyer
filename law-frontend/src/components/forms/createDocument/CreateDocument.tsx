@@ -50,7 +50,7 @@ const CreateDocument = () => {
 
 	const { data: categoryData } = useGetAllCategoriesQuery();
 
-	const [create, { isError, isSuccess }] = useCreateDocumentMutation();
+	const [create, { isError, isSuccess, data }] = useCreateDocumentMutation();
 	interface AnyPresentValue {
 		[index: number]: any;
 	}
@@ -110,7 +110,6 @@ const CreateDocument = () => {
 	}, [toUpload]);
 	const onSubmit = (e: any) => {
 		e.file = file;
-		console.log(e);
 		create(e);
 	};
 
@@ -127,6 +126,7 @@ const CreateDocument = () => {
 
 	return (
 		<div className={styles.body}>
+			<>{console.log(data)}</>
 			<ToastContainer theme={'colored'} className="h-fit" />
 			<div>
 				<div>

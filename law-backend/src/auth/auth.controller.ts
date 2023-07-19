@@ -9,6 +9,8 @@ import { ServiceEntity } from '../service/service.entity';
 import { Service } from '../service/decorators/service.decorator';
 import { AuthGuards } from './guards/auth.guard';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { Roles } from './decorators/role.decorator';
+import { Role } from './role.enum';
 
 @ApiTags('Авторизация')
 @Controller('auth')
@@ -36,6 +38,8 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Registration' })
   @Post('registration')
+  @UseGuards(AuthGuards)
+  @Roles(Role.SUPERADMIN)
   async register(
     @Body() createServiceDto: CreateServiceDto,
   ): Promise<IServiceResponse> {

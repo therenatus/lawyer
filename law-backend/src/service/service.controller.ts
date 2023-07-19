@@ -35,7 +35,6 @@ export class ServiceController {
   @Roles(Role.ADMIN)
   @UseGuards(AuthGuard)
   async update(@Body() updateServiceDto: UpdateServiceDto) {
-    console.log(updateServiceDto);
     const newService = await this.service.update(updateServiceDto);
     return this.service.buildResponseInterface(newService);
   }

@@ -7,6 +7,7 @@ import DocumentCard from '../components/table/documentDetail/DocumentCard';
 import { BodyLayout } from '../layout/BodyLayout';
 import { useGetOneQuery } from '../store/document/documentApi';
 import { AdditionalTypeEnum } from '../types/aditionalType.enum';
+import { StatusEnum } from '../types/status-enum';
 
 export const Document = () => {
 	const [open, setOpen] = useState<boolean>(false);
@@ -35,27 +36,30 @@ export const Document = () => {
 		return null;
 	}
 	const document = data?.document;
-	console.log(document);
 	return (
 		<BodyLayout>
 			<DocumentCard data={data?.document} />
-			<button
-				onClick={() => Extend()}
-				className="mt-3 px-5 py-2 text-white bg-green-700 cursor-pointer"
-			>
-				Продлить
-			</button>
-			<button
-				onClick={() => Terminate()}
-				className="mt-3 ml-3 px-5 py-2 text-white bg-red-700 cursor-pointer"
-			>
-				Расторгнуть
-			</button>
-			<ChangeDocument
-				type={type}
-				isOpen={open}
-				onClose={() => onClose()}
-			/>
+			{data?.document.status !== StatusEnum.REJECT ? (
+				<>
+					<button
+						onClick={() => Extend()}
+						className="mt-3 px-5 py-2 text-white bg-green-700 cursor-pointer"
+					>
+						Продлить
+					</button>
+					<button
+						onClick={() => Terminate()}
+						className="mt-3 ml-3 px-5 py-2 text-white bg-red-700 cursor-pointer"
+					>
+						Расторгнуть
+					</button>
+					<ChangeDocument
+						type={type}
+						isOpen={open}
+						onClose={() => onClose()}
+					/>
+				</>
+			) : null}
 			{document?.additionalDocuments.length ? (
 				<Dropdown additional={data?.document.additionalDocuments} />
 			) : null}

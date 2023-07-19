@@ -58,8 +58,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, type }) => {
 			`${process.env.REACT_APP_BASE_URL}/additional/${param.id}`,
 			e
 		);
-
-		console.log(data);
 	};
 
 	if (!isOpen) {

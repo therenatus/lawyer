@@ -10,7 +10,8 @@ import { TUserCreate } from '../../../../types/user.interface';
 import styles from './create-service.module.scss';
 
 const CreateService: React.FC = () => {
-	const [create, { isLoading, isSuccess, isError }] = useRegisterMutation();
+	const [create, { isLoading, isSuccess, isError, error }] =
+		useRegisterMutation();
 	const [role, setRole] = useState();
 	const schema = yup.object().shape({
 		name: yup.string().required('Поле не должно быть пустым'),
@@ -40,9 +41,9 @@ const CreateService: React.FC = () => {
 	// @ts-ignore
 	return (
 		<div className={styles.body}>
+			<>{isError && console.log(error)}</>
 			<div>
 				<h1>Добавить службу</h1>
-				<>{console.log(set)}</>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div>
 						<div>

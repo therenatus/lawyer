@@ -9,7 +9,6 @@ type Props = {
 	additional?: Additional[];
 };
 export const Dropdown = ({ additional }: Props) => {
-	console.log(additional && additional[0]);
 	return (
 		<main className="w-full mx-auto mt-2.5">
 			<section className="shadow row">
