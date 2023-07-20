@@ -6,17 +6,15 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
-import express, { urlencoded } from 'express';
+import { urlencoded, json } from 'express';
 
 async function bootstrap() {
   dotenv.config();
-  const app = await NestFactory.create(AppModule, {
-    bodyParser: { limit: '50mb' },
-  });
+  const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   app.enableCors();
   app.use(urlencoded({ extended: true }));
-  app.use(express.json({ limit: '50mb' }));
+  app.use(json({ limit: '50mb' }));
   const config = new DocumentBuilder()
     .setTitle('The App for lawyers')
     .setDescription('Documentation for REST API')
