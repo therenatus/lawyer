@@ -1,5 +1,3 @@
-import { getBodyParserOptions } from '@nestjs/platform-express/adapters/utils/get-body-parser-options.util';
-
 if (!process.env.IS_TS_NODE) {
   require('module-alias/register');
 }
@@ -8,14 +6,17 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
-import { urlencoded } from 'express';
+import express, { urlencoded } from 'express';
 
 async function bootstrap() {
   dotenv.config();
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bodyParser: { limit: '50mb' },
+  });
   app.setGlobalPrefix('api');
   app.enableCors();
   app.use(urlencoded({ extended: true }));
+  app.use(express.json({ limit: '50mb' }));
   const config = new DocumentBuilder()
     .setTitle('The App for lawyers')
     .setDescription('Documentation for REST API')

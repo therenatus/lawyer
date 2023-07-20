@@ -158,7 +158,7 @@ const CreateDocument = () => {
 									</div>
 									<div>
 										<label>
-											Наименование организации
+											Наименование контрагента
 											<abbr title="required">*</abbr>
 										</label>
 										<input
@@ -192,7 +192,7 @@ const CreateDocument = () => {
 									</div>
 									<div>
 										<label>
-											Название службы инициатора
+											Служба инициатор
 											<abbr title="required">*</abbr>
 										</label>
 										<select
@@ -249,7 +249,7 @@ const CreateDocument = () => {
 									</div>
 									<div>
 										<label>
-											Категория документа
+											Номенклатурный номер
 											<abbr title="required">*</abbr>
 										</label>
 										<select
