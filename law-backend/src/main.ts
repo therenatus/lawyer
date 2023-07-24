@@ -13,7 +13,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   app.enableCors();
-  app.use(urlencoded({ extended: true }));
+  app.use(urlencoded({ extended: true, limit: '50mb' }));
   app.use(json({ limit: '50mb' }));
   const config = new DocumentBuilder()
     .setTitle('The App for lawyers')
