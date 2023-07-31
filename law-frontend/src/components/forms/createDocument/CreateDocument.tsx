@@ -57,7 +57,7 @@ const CreateDocument = () => {
 
 	const [file, setFile] = useState<IFile | null>(null);
 	const [fileLoading, setFileLoading] = useState<boolean | null>(null);
-	const [progress, setProgress] = useState<number | undefined>(0);
+	// const [progress, setProgress] = useState<number | undefined>(0);
 
 	const fileUpload = async () => {
 		if (toUpload && toUpload[0] !== undefined) {
@@ -71,14 +71,14 @@ const CreateDocument = () => {
 					{
 						headers: {
 							'Content-Type': 'multipart/form-data, charset=utf-8'
-						},
-						onUploadProgress: (progressEvent) => {
-							const percentage = Math.round(
-								(progressEvent.loaded * 100) /
-									progressEvent.total!
-							);
-							setProgress(percentage);
 						}
+						// onUploadProgress: (progressEvent) => {
+						// 	const percentage = Math.round(
+						// 		(progressEvent.loaded * 100) /
+						// 			progressEvent.total!
+						// 	);
+						// 	setProgress(percentage);
+						// }
 					}
 				);
 				setFileLoading(false);
@@ -414,16 +414,16 @@ const CreateDocument = () => {
 												onClick={() => setFile(null)}
 											/>
 										</div>
-										<div className="w-full leading-none rounded-full duration-100 bg-blue-600 px-10 h-[25px] relative">
-											<div
-												className="absolute text-3xl font-medium text-blue-100 top-[-15px] left-4 "
-												style={{
-													width: progress + '%'
-												}}
-											>
-												{progress}%
-											</div>
-										</div>
+										{/*<div className="w-full leading-none rounded-full duration-100 bg-blue-600 px-10 h-[25px] relative">*/}
+										{/*	<div*/}
+										{/*		className="absolute text-3xl font-medium text-blue-100 top-[-15px] left-4 "*/}
+										{/*		style={{*/}
+										{/*			width: progress + '%'*/}
+										{/*		}}*/}
+										{/*	>*/}
+										{/*		{progress}%*/}
+										{/*	</div>*/}
+										{/*</div>*/}
 									</>
 								)}
 							</div>
