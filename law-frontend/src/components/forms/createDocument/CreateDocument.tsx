@@ -414,7 +414,7 @@ const CreateDocument = () => {
 												onClick={() => setFile(null)}
 											/>
 										</div>
-										<div className="w-full leading-none rounded-full duration-100 bg-blue-600 px-10 h-[30px] relative">
+										<div className="w-full leading-none rounded-full duration-100 bg-blue-600 px-10 h-[25px] relative">
 											<div
 												className="absolute text-3xl font-medium text-blue-100 top-[-15px] left-4 "
 												style={{
