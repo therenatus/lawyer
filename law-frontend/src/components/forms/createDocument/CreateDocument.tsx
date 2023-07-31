@@ -43,17 +43,51 @@ interface IFile {
 	name: string;
 }
 
+interface AnyPresentValue {
+	[index: number]: any;
+}
+
 const CreateDocument = () => {
-	const [file, setFile] = useState<IFile | null>(null);
 	const navigate = useNavigate();
+
 	const { data: serviceData } = useGetAllServicesQuery();
-
 	const { data: categoryData } = useGetAllCategoriesQuery();
+	const [create, { isLoading, isError, isSuccess, data }] =
+		useCreateDocumentMutation();
 
-	const [create, { isError, isSuccess, data }] = useCreateDocumentMutation();
-	interface AnyPresentValue {
-		[index: number]: any;
-	}
+	const [file, setFile] = useState<IFile | null>(null);
+	const [fileLoading, setFileLoading] = useState<boolean | null>(null);
+	const [progress, setProgress] = useState<number | undefined>(0);
+
+	const fileUpload = async () => {
+		if (toUpload && toUpload[0] !== undefined) {
+			const formData = new FormData();
+			formData.append('files', toUpload[0]);
+			try {
+				setFileLoading(true);
+				const uploadedFile = await axios.post(
+					`${process.env.REACT_APP_BASE_URL}/file/upload`,
+					formData,
+					{
+						headers: {
+							'Content-Type': 'multipart/form-data, charset=utf-8'
+						},
+						onUploadProgress: (progressEvent) => {
+							const percentage = Math.round(
+								(progressEvent.loaded * 100) /
+									progressEvent.total!
+							);
+							setProgress(percentage);
+						}
+					}
+				);
+				setFileLoading(false);
+				setFile(uploadedFile.data);
+			} catch (error) {
+				toast.error('Произошла ощибка');
+			}
+		}
+	};
 
 	const schema = yup.object().shape({
 		title: yup.string().required('Обьязательное поле'),
@@ -86,27 +120,7 @@ const CreateDocument = () => {
 	let toUpload: FileList | undefined = watch('file');
 
 	useEffect(() => {
-		const formData = new FormData();
-		if (toUpload && toUpload[0] !== undefined) {
-			formData.append('files', toUpload[0]);
-			axios
-				.post(
-					`${process.env.REACT_APP_BASE_URL}/file/upload`,
-					formData,
-					{
-						headers: {
-							'Content-Type': 'multipart/form-data, charset=utf-8'
-						},
-						responseEncoding: 'utf-8'
-					}
-				)
-				.then((res) => {
-					setFile(res.data);
-				})
-				.catch(() => {
-					toast.error('Произошла ощибка при загрузке файла');
-				});
-		}
+		fileUpload();
 	}, [toUpload]);
 	const onSubmit = (e: any) => {
 		e.file = file;
@@ -124,10 +138,22 @@ const CreateDocument = () => {
 		}, 3000);
 	}
 
+	if (fileLoading) {
+		toast.loading('Документ успешно сохранен');
+	}
+
+	if (fileLoading === true) {
+		toast.dismiss();
+		toast.success('Документ успешно сохранен');
+	}
+
 	return (
 		<div className={styles.body}>
-			<>{console.log(data)}</>
-			<ToastContainer theme={'colored'} className="h-fit" />
+			<ToastContainer
+				theme={'colored'}
+				className="h-fit"
+				position="top-right"
+			/>
 			<div>
 				<div>
 					<div>
@@ -374,7 +400,7 @@ const CreateDocument = () => {
 									</>
 								) : (
 									<>
-										<div className="flex items-center justify-between bg-blue-200 dark:bg-blue-400 rounded-full px-10 py-2">
+										<div className="flex items-center justify-between bg-blue-200 dark:bg-blue-400 rounded-full px-10 py-2 h">
 											<a
 												className="file block"
 												target="_blank"
@@ -387,6 +413,16 @@ const CreateDocument = () => {
 												className="ml-auto text-gray-500 cursor-pointer hover:text-gray-700 block"
 												onClick={() => setFile(null)}
 											/>
+										</div>
+										<div className="w-full leading-none rounded-full duration-100 bg-blue-600 px-10 h-[30px] relative">
+											<div
+												className="absolute text-3xl font-medium text-blue-100 top-[-15px] left-4 "
+												style={{
+													width: progress + '%'
+												}}
+											>
+												{progress}%
+											</div>
 										</div>
 									</>
 								)}

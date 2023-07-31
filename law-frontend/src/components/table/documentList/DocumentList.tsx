@@ -88,7 +88,7 @@ const DocumentList = ({ data, searchQuery }: Props) => {
 											</Link>
 										</th>
 										<td className={styles.field}>
-											{el.category.name}
+											{el?.category?.name}
 										</td>
 										<td className={styles.field}>
 											{el.number}
@@ -124,7 +124,7 @@ const DocumentList = ({ data, searchQuery }: Props) => {
 											)}
 										</td>
 										<td className={styles.status}>
-											{el.additionalDocuments.length ? (
+											{el?.additionalDocuments.length ? (
 												el.additionalDocuments[
 													el.additionalDocuments
 														.length - 1

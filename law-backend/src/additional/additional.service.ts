@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AdditionalEntity } from '../additional/additional.entity';
 import { Repository } from 'typeorm';
@@ -37,6 +32,10 @@ export class AdditionalService {
     const document = await this.documentRepository.findOneBy({ id });
     if (document.status === Status.REJECT) {
       throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+    if (dto.file) {
+      additional.fileName = dto.file.name;
+      additional.filePath = dto.file.url;
     }
     Object.assign(additional, dto);
     additional.addiction = document;

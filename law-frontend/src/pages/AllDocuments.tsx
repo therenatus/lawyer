@@ -11,9 +11,8 @@ import { ErrorPage } from './Error';
 export const AllDocuments = () => {
 	const [page, setPage] = useState<number>(1);
 	const [searchQuery, setSearchQuery] = useState<string>();
-	const limit = 10;
 	const { data, isLoading, isError } = useGetAllQuery({
-		limit,
+		limit: 3,
 		page,
 		q: searchQuery
 	});

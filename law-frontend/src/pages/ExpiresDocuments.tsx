@@ -10,6 +10,7 @@ type Props = {};
 
 export const ExpiresDocuments = (props: Props) => {
 	const { data, isLoading, isError } = useGetExpiresQuery();
+	console.log(data);
 
 	return (
 		<>

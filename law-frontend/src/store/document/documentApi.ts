@@ -33,8 +33,8 @@ export const documentApi = createApi({
 	baseQuery,
 	endpoints: (builder) => ({
 		getAll: builder.query<IDocumentsResponse, any>({
-			query: ({ limit = 10, page = 0, q }) =>
-				`?limit=${limit}&offset=${page}&${q ? `q=${q}` : null}`
+			query: ({ limit, page, q }) =>
+				`?limit=${limit}&offset=${page}${q ? `&q=${q}` : ''}`
 		}),
 		getOne: builder.query<IDocumentResponse, string>({
 			query: (id: string) => `/${id}`

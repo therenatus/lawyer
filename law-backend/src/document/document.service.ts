@@ -53,9 +53,17 @@ export class DocumentService {
         id: author.id,
       });
     }
+    if (query.author) {
+      const author = await this.serviceRepository.findOneBy({
+        name: query.author,
+      });
+      queryBuilder.andWhere('document.author = :id', {
+        id: author.id,
+      });
+    }
 
     if (query.limit) {
-      queryBuilder.limit(query.limit * 1);
+      queryBuilder.limit(query.limit);
     }
 
     if (query.offset) {
@@ -132,7 +140,9 @@ export class DocumentService {
     const threeDayLater = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000);
     const queryBuilder = this.documentRepository
       .createQueryBuilder('documents')
-      .leftJoinAndSelect('documents.initiators', 'initiators');
+      .leftJoinAndSelect('documents.initiators', 'initiators')
+      .leftJoinAndSelect('documents.additionalDocuments', 'additionalDocuments')
+      .leftJoinAndSelect('documents.category', 'category');
 
     queryBuilder.orderBy('documents.endDate', 'ASC');
 

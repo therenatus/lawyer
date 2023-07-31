@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BsXLg } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
-import * as yup from 'yup';
+import { toast } from 'react-toastify';
 
 import { AdditionalTypeEnum } from '../../../types/aditionalType.enum';
 import styles from '../createDocument/document.module.scss';
@@ -21,7 +21,10 @@ interface IFile {
 
 const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, type }) => {
 	const param = useParams();
-	const [file, setFile] = useState<IFile[]>([]);
+
+	const [file, setFile] = useState<IFile | null>(null);
+	const [fileLoading, setFileLoading] = useState<boolean | null>(null);
+
 	const {
 		register,
 		handleSubmit,
@@ -29,30 +32,38 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, type }) => {
 		watch
 	} = useForm();
 
-	const upload: FileList = watch('file');
+	const toUpload: FileList = watch('file');
+
+	const fileUpload = async () => {
+		if (toUpload && toUpload[0] !== undefined) {
+			const formData = new FormData();
+			formData.append('files', toUpload[0]);
+			try {
+				setFileLoading(true);
+				const uploadedFile = await axios.post(
+					`${process.env.REACT_APP_BASE_URL}/file/upload`,
+					formData,
+					{
+						headers: {
+							'Content-Type': 'multipart/form-data, charset=utf-8'
+						},
+						responseEncoding: 'utf-8'
+					}
+				);
+				setFileLoading(false);
+				setFile(uploadedFile.data);
+			} catch (error) {
+				toast.error('Произошла ощибка');
+			}
+		}
+	};
 
 	useEffect(() => {
-		const formData = new FormData();
-		if (upload && upload[0] != undefined) {
-			formData.append('files', upload[0]);
-			axios
-				.post('http://localhost:3333/api/file/upload', formData, {
-					headers: {
-						'Content-Type': 'multipart/form-data, charset=utf-8'
-					},
-					responseEncoding: 'utf-8'
-				})
-				.then((res) => {
-					setFile((prev) => [...prev, res.data[0]]);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		}
-	}, [upload]);
+		fileUpload();
+	}, [toUpload]);
 
 	const onHandleSubmit = async (e: any) => {
-		e.file = file[0];
+		e.file = file;
 		e.type = type;
 		const data = await axios.post(
 			`${process.env.REACT_APP_BASE_URL}/additional/${param.id}`,
@@ -76,6 +87,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, type }) => {
 				<form onSubmit={handleSubmit(onHandleSubmit)}>
 					{AdditionalTypeEnum.EXTEND === type ? (
 						<input
+							{...register('endDate', {
+								required: 'Not Empty'
+							})}
 							type="date"
 							className="appearance-none block w-full bg-gray-200 text-gray-800 dark:text-gray-300 border border-gray-300 rounded-lg h-10 px-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
 						/>
