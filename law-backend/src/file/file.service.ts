@@ -1,5 +1,5 @@
 import { FileResponse } from '../document/types/file.response';
-import { Injectable } from '@nestjs/common';
+import { Injectable, ParseUUIDPipe } from '@nestjs/common';
 import { path } from 'app-root-path';
 import { format } from 'date-fns';
 import { ensureDir, writeFile } from 'fs-extra';
@@ -12,6 +12,8 @@ export class FileService {
       let res: FileResponse | null = null;
       const dateFolder = format(new Date(), 'yyyy-MM-dd');
       const uploadedFolder = `${path}/uploads/${dateFolder}`;
+      const fileName = utf8.decode(file.originalname);
+      const random = Date.now().toString(16);
       await ensureDir(uploadedFolder);
 
       // for (const file of files) {
@@ -22,11 +24,12 @@ export class FileService {
       //   });
       //   return res;
       // }
-      await writeFile(`${uploadedFolder}/${file.originalname}`, file.buffer);
+      await writeFile(`${uploadedFolder}/${fileName}`, file.buffer);
       res = {
-        url: `${dateFolder}/${file.originalname}`,
-        name: utf8.decode(file.originalname),
+        url: `${dateFolder}/${fileName}`,
+        name: fileName,
       };
+      console.log(res);
       return res;
     } catch (error) {
       console.log('error ser', error);

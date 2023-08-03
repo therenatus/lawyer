@@ -145,7 +145,23 @@ export class DocumentService {
       .leftJoinAndSelect('documents.category', 'category');
 
     queryBuilder.orderBy('documents.endDate', 'ASC');
+    if (query.q) {
+      queryBuilder.andWhere('documents.title LIKE :tag', {
+        tag: `%${query.q}%`,
+      });
+    }
+    if (query.status) {
+      queryBuilder.andWhere('documents.status = :status', {
+        status: query.status,
+      });
+    }
+    if (query.limit) {
+      queryBuilder.limit(query.limit);
+    }
 
+    if (query.offset) {
+      queryBuilder.offset((query.offset - 1) * query.limit);
+    }
     queryBuilder.andWhere(
       'documents.endDate BETWEEN :today AND :threeDayLater',
       {
@@ -157,7 +173,7 @@ export class DocumentService {
     const documents = await queryBuilder.getMany();
     return {
       document: documents,
-      pagination: { totalCount, count: query.limit, page: query.offset },
+      pagination: { totalCount, count: query.limit, page: query.offset - 1 },
     };
   }
 

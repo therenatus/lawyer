@@ -12,7 +12,7 @@ import { MulterModule } from '@nestjs/platform-express';
     }),
     MulterModule.register({
       limits: {
-        fileSize: 1024 * 1024 * 25,
+        fileSize: 1024 * 1024 * 250,
       },
     }),
   ],

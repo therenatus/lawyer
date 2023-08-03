@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { BsXLg } from 'react-icons/bs';
+import { BsFillTrashFill, BsXLg } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -141,6 +141,22 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, type }) => {
 							</ul>
 						</section>
 					</div>
+					{file ? (
+						<div className="flex items-center justify-between bg-blue-200 dark:bg-blue-400 rounded-full px-10 py-2 h">
+							<a
+								className="file block"
+								target="_blank"
+								href={`http://${process.env.REACT_APP_BASE_URL}/uploads/${file.url}`}
+							>
+								{file.url}
+							</a>
+							<BsFillTrashFill
+								size={20}
+								className="ml-auto text-gray-500 cursor-pointer hover:text-gray-700 block"
+								onClick={() => setFile(null)}
+							/>
+						</div>
+					) : null}
 					<button
 						type="submit"
 						className="dark:bg-blue-700 px-5 py-2 text-white"

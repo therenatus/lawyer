@@ -42,8 +42,9 @@ export const documentApi = createApi({
 		getByInitiators: builder.query<IDocumentsResponse, void>({
 			query: () => '/initiators'
 		}),
-		getExpires: builder.query<IDocumentsResponse, void>({
-			query: () => '/line'
+		getExpires: builder.query<IDocumentsResponse, any>({
+			query: ({ limit, page, q }) =>
+				`/line?limit=${limit}&offset=${page}${q ? `&q=${q}` : ''}`
 		}),
 		createDocument: builder.mutation({
 			query: (data) => ({

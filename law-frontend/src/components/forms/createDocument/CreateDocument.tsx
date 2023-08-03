@@ -63,9 +63,9 @@ const CreateDocument = () => {
 		if (toUpload && toUpload[0] !== undefined) {
 			const formData = new FormData();
 			formData.append('files', toUpload[0]);
-			try {
-				setFileLoading(true);
-				const uploadedFile = await axios.post(
+			setFileLoading(true);
+			await axios
+				.post(
 					`${process.env.REACT_APP_BASE_URL}/file/upload`,
 					formData,
 					{
@@ -80,12 +80,14 @@ const CreateDocument = () => {
 						// 	setProgress(percentage);
 						// }
 					}
-				);
-				setFileLoading(false);
-				setFile(uploadedFile.data);
-			} catch (error) {
-				toast.error('Произошла ощибка');
-			}
+				)
+				.then((res) => {
+					setFileLoading(false);
+					setFile(res.data);
+				})
+				.catch(() => {
+					toast.error('Произошла ощибка');
+				});
 		}
 	};
 
