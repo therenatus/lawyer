@@ -9,6 +9,7 @@ import { MulterModule } from '@nestjs/platform-express';
   imports: [
     ServeStaticModule.forRoot({
       rootPath: `${path}/uploads`,
+      serveRoot: '/static',
     }),
     MulterModule.register({
       limits: {
