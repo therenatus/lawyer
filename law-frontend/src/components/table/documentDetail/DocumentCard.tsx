@@ -43,7 +43,7 @@ const dataDetail = ({ data }: Props) => {
 							</td>
 							<td>
 								<a
-									href={`http://localhost:3333/${data?.filePath}`}
+									href={`${process.env.REACT_APP_BASE_URL}/${data?.filePath}`}
 								>
 									{data?.fileName}
 								</a>
