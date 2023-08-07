@@ -56,40 +56,71 @@ const CreateDocument = () => {
 		useCreateDocumentMutation();
 
 	const [file, setFile] = useState<IFile | null>(null);
-	const [fileLoading, setFileLoading] = useState<boolean | null>(null);
+
 	// const [progress, setProgress] = useState<number | undefined>(0);
 
 	const fileUpload = async () => {
 		if (toUpload && toUpload[0] !== undefined) {
 			const formData = new FormData();
 			formData.append('files', toUpload[0]);
-			setFileLoading(true);
-			await axios
-				.post(
-					`${process.env.REACT_APP_BASE_URL}/file/upload`,
-					formData,
-					{
-						headers: {
-							'Content-Type': 'multipart/form-data, charset=utf-8'
-						}
-						// onUploadProgress: (progressEvent) => {
-						// 	const percentage = Math.round(
-						// 		(progressEvent.loaded * 100) /
-						// 			progressEvent.total!
-						// 	);
-						// 	setProgress(percentage);
-						// }
+			const res = axios.post(
+				`${process.env.REACT_APP_BASE_URL}/file/upload`,
+				formData,
+				{
+					headers: {
+						'Content-Type': 'multipart/form-data, charset=utf-8'
 					}
-				)
-				.then((res) => {
-					setFileLoading(false);
-					setFile(res.data);
+				}
+			);
+			toast
+				.promise(res, {
+					pending: 'Загрузка файла',
+					success: { render: 'Файл успешно загружен', delay: 100 },
+					error: {
+						render: 'Произола ощибка при загрузке файла',
+						delay: 100
+					}
 				})
-				.catch(() => {
-					toast.error('Произошла ощибка');
-				});
+				.then((res) => setFile(res.data));
 		}
 	};
+
+	// const fileUpload = async () => {
+	// 	try {
+	// 		const url = `${process.env.REACT_APP_BASE_URL}/file/upload`; // Replace with the actual URL to download
+	// 		const response = await axios({
+	// 			url,
+	// 			method: 'POST',
+	// 			responseType: 'blob',
+	// 			onDownloadProgress: (progressEvent) => {
+	// 				const progress = Math.round(
+	// 					(progressEvent.loaded * 100) / progressEvent.total!
+	// 				);
+	// 				setDownloadProgress(progress);
+	// 			}
+	// 		});
+	//
+	// 		// Create a link and trigger download
+	// 		const downloadUrl = window.URL.createObjectURL(
+	// 			new Blob([response.data])
+	// 		);
+	// 		const link = document.createElement('a');
+	// 		link.href = downloadUrl;
+	// 		link.setAttribute('download', 'file_name.extension'); // Replace with the desired filename and extension
+	// 		document.body.appendChild(link);
+	// 		link.click();
+	//
+	// 		// Show download success message
+	// 		toast.success('Download completed successfully!', {
+	// 			position: toast.POSITION.BOTTOM_RIGHT
+	// 		});
+	// 	} catch (error) {
+	// 		console.error('Download error:', error);
+	// 		toast.error('Download failed!', {
+	// 			position: toast.POSITION.BOTTOM_RIGHT
+	// 		});
+	// 	}
+	// };
 
 	const schema = yup.object().shape({
 		title: yup.string().required('Обьязательное поле'),
@@ -138,15 +169,6 @@ const CreateDocument = () => {
 		setTimeout(() => {
 			navigate('/');
 		}, 3000);
-	}
-
-	if (fileLoading) {
-		toast.loading('Документ успешно сохранен');
-	}
-
-	if (fileLoading === true) {
-		toast.dismiss();
-		toast.success('Документ успешно сохранен');
 	}
 
 	return (
@@ -406,7 +428,7 @@ const CreateDocument = () => {
 											<a
 												className="file block"
 												target="_blank"
-												href={`http://${process.env.REACT_APP_BASE_URL}/uploads/${file.url}`}
+												href={`http://${process.env.REACT_APP_STATIC_URL}/uploads/${file.url}`}
 											>
 												{file.name}
 											</a>

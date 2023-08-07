@@ -30,7 +30,6 @@ export const ExpiresDocuments = (props: Props) => {
 
 	return (
 		<BodyLayout>
-			<>{console.log(data)}</>
 			{isError && <ErrorPage />}
 			{isLoading && <Loader />}
 			{data ? (

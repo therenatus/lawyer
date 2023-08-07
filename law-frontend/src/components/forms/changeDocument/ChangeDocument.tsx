@@ -23,7 +23,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, type }) => {
 	const param = useParams();
 
 	const [file, setFile] = useState<IFile | null>(null);
-	const [fileLoading, setFileLoading] = useState<boolean | null>(null);
 
 	const {
 		register,
@@ -38,23 +37,26 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, type }) => {
 		if (toUpload && toUpload[0] !== undefined) {
 			const formData = new FormData();
 			formData.append('files', toUpload[0]);
-			try {
-				setFileLoading(true);
-				const uploadedFile = await axios.post(
-					`${process.env.REACT_APP_BASE_URL}/file/upload`,
-					formData,
-					{
-						headers: {
-							'Content-Type': 'multipart/form-data, charset=utf-8'
-						},
-						responseEncoding: 'utf-8'
+			const res = axios.post(
+				`${process.env.REACT_APP_BASE_URL}/file/upload`,
+				formData,
+				{
+					headers: {
+						'Content-Type': 'multipart/form-data, charset=utf-8'
+					},
+					responseEncoding: 'utf-8'
+				}
+			);
+			toast
+				.promise(res, {
+					pending: 'Загрузка файла',
+					success: { render: 'Файл успешно загружен', delay: 100 },
+					error: {
+						render: 'Произола ощибка при загрузке файла',
+						delay: 100
 					}
-				);
-				setFileLoading(false);
-				setFile(uploadedFile.data);
-			} catch (error) {
-				toast.error('Произошла ощибка');
-			}
+				})
+				.then((res) => setFile(res.data));
 		}
 	};
 

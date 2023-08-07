@@ -29,7 +29,6 @@ export class FileService {
         url: `${dateFolder}/${fileName}`,
         name: fileName,
       };
-      console.log(res);
       return res;
     } catch (error) {
       console.log('error ser', error);
