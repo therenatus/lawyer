@@ -69,8 +69,10 @@ export class DocumentService {
     if (query.offset) {
       queryBuilder.offset((query.offset - 1) * query.limit);
     }
-    const totalCount = await queryBuilder.getCount();
+    console.log(query);
+    console.log(queryBuilder);
     const documents = await queryBuilder.getMany();
+    const totalCount = await queryBuilder.getCount();
     return {
       document: documents,
       pagination: { totalCount, count: query.limit, page: query.offset - 1 },

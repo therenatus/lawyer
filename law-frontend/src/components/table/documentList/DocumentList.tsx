@@ -55,25 +55,24 @@ const DocumentList = ({ data, searchQuery }: Props) => {
 					<thead>
 						<tr>
 							<th scope="col" className={styles.field}>
+								Номер
+							</th>
+							<th scope="col" className={styles.field}>
 								Название
 							</th>
 							<th scope="col" className={styles.field}>
 								Категория
 							</th>
-							<th scope="col" className={styles.field}>
-								Номер
-							</th>
+
 							<th scope="col" className={styles.field}>
 								Инициатор
 							</th>
+
+							<th scope="col" className={styles.field}>
+								Дата регистрации
+							</th>
 							<th scope="col" className={styles.field}>
 								Конец
-							</th>
-							<th scope="col" className={styles.field}>
-								Статус
-							</th>
-							<th scope="col" className={styles.field}>
-								Доп
 							</th>
 						</tr>
 					</thead>
@@ -82,20 +81,33 @@ const DocumentList = ({ data, searchQuery }: Props) => {
 							data?.document.map((el) => {
 								return (
 									<tr key={el.id}>
+										<td className={styles.field}>
+											{el.number}
+										</td>
 										<th scope="row">
 											<Link to={`/${el.id}`}>
 												{el.title}
 											</Link>
 										</th>
 										<td className={styles.field}>
-											{el?.category?.name}
+											<p className={'text-center'}>
+												{el?.category?.name}
+											</p>
 										</td>
+
 										<td className={styles.field}>
-											{el.number}
+											<p className={'text-center'}>
+												{el.initiators &&
+													el.initiators.shortName}
+											</p>
 										</td>
-										<td className={styles.field}>
-											{el.initiators &&
-												el.initiators.shortName}
+										<td>
+											<p className="text-center">
+												{format(
+													new Date(el.createdAt),
+													'dd/LL/yyyy'
+												)}
+											</p>
 										</td>
 										<td
 											className={
@@ -111,48 +123,6 @@ const DocumentList = ({ data, searchQuery }: Props) => {
 													'dd/LL/yyyy'
 												)}
 											</p>
-										</td>
-										<td className={styles.status}>
-											{el.status === 'todo' ? (
-												<BiTimer
-													className={styles.svg}
-												/>
-											) : (
-												<BiCheck
-													className={styles.svg}
-												/>
-											)}
-										</td>
-										<td className={styles.status}>
-											{el?.additionalDocuments.length ? (
-												el.additionalDocuments[
-													el.additionalDocuments
-														.length - 1
-												].type ===
-												AdditionalTypeEnum.TERMINATE ? (
-													<div
-														className={styles.type}
-													>
-														<GrDocumentMissing
-															className={`${styles.svg}`}
-														/>
-
-														<p>Расторгнут</p>
-													</div>
-												) : (
-													<div
-														className={styles.type}
-													>
-														<GrDocumentVerified
-															className={`${styles.svg}`}
-														/>
-
-														<p>Продлен</p>
-													</div>
-												)
-											) : (
-												<></>
-											)}
 										</td>
 									</tr>
 								);

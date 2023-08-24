@@ -11,6 +11,7 @@ import * as yup from 'yup';
 import { useGetAllCategoriesQuery } from '../../../store/category/categoryApi';
 import { useCreateDocumentMutation } from '../../../store/document/documentApi';
 import { useGetAllServicesQuery } from '../../../store/service/serviceApi';
+import { Input } from '../../Input/Input';
 
 import styles from './document.module.scss';
 
@@ -85,43 +86,6 @@ const CreateDocument = () => {
 		}
 	};
 
-	// const fileUpload = async () => {
-	// 	try {
-	// 		const url = `${process.env.REACT_APP_BASE_URL}/file/upload`; // Replace with the actual URL to download
-	// 		const response = await axios({
-	// 			url,
-	// 			method: 'POST',
-	// 			responseType: 'blob',
-	// 			onDownloadProgress: (progressEvent) => {
-	// 				const progress = Math.round(
-	// 					(progressEvent.loaded * 100) / progressEvent.total!
-	// 				);
-	// 				setDownloadProgress(progress);
-	// 			}
-	// 		});
-	//
-	// 		// Create a link and trigger download
-	// 		const downloadUrl = window.URL.createObjectURL(
-	// 			new Blob([response.data])
-	// 		);
-	// 		const link = document.createElement('a');
-	// 		link.href = downloadUrl;
-	// 		link.setAttribute('download', 'file_name.extension'); // Replace with the desired filename and extension
-	// 		document.body.appendChild(link);
-	// 		link.click();
-	//
-	// 		// Show download success message
-	// 		toast.success('Download completed successfully!', {
-	// 			position: toast.POSITION.BOTTOM_RIGHT
-	// 		});
-	// 	} catch (error) {
-	// 		console.error('Download error:', error);
-	// 		toast.error('Download failed!', {
-	// 			position: toast.POSITION.BOTTOM_RIGHT
-	// 		});
-	// 	}
-	// };
-
 	const schema = yup.object().shape({
 		title: yup.string().required('Обьязательное поле'),
 		contrAgent: yup.string().required('Обьязательное поле'),
@@ -157,7 +121,8 @@ const CreateDocument = () => {
 	}, [toUpload]);
 	const onSubmit = (e: any) => {
 		e.file = file;
-		create(e);
+		console.log(e);
+		// ?
 	};
 
 	if (isError) {
@@ -188,16 +153,23 @@ const CreateDocument = () => {
 							<div>
 								<div>
 									<div>
-										<label>
-											Предмет договара
-											<abbr title="required">*</abbr>
-										</label>
-										<input
-											placeholder="Название"
-											type="text"
-											id="integration_shop_name"
-											{...register('title')}
+										<Input
+											name={'title'}
+											label={'Предмет договора'}
+											register={register}
+											placeholder={'Название'}
+											required={true}
 										/>
+										{/*<label>*/}
+										{/*	Предмет договара*/}
+										{/*	<abbr title="required">*</abbr>*/}
+										{/*</label>*/}
+										{/*<input*/}
+										{/*	placeholder="Название"*/}
+										{/*	type="text"*/}
+										{/*	id="integration_shop_name"*/}
+										{/*	{...register('title')}*/}
+										{/*/>*/}
 
 										{errors.title &&
 											errors.title.message && (
